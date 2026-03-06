@@ -187,7 +187,13 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
       "powershell Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe",
       "powershell Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
       ]
-
+    connection {
+      type     = "winrm"
+      host     = self.public_ip_address
+      user     = self.admin_username
+      password = self.admin_password
+      port     = 5985
+    }
   }
 
 # resource "azurerm_virtual_machine_extension" "add_users" {
