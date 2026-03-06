@@ -97,7 +97,7 @@ resource "azurerm_network_interface" "spcnic" {
 }
 
 resource "azurerm_windows_virtual_machine" "spcvm" {
-  name                  = "VM-SANT-SPC-SPOT1"
+  name                  = "VM-SANT-SPCSPT1"
   resource_group_name   = azurerm_resource_group.spcrg.name
   location              = azurerm_resource_group.spcrg.location
   size                  = "Standard_B2ms"
