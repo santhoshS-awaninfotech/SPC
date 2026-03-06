@@ -52,7 +52,7 @@ jobs:
         run: terraform plan -out=tfplan.binary
 
       - name: Upload plan file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tfplan
           path: tfplan.binary
@@ -77,7 +77,7 @@ jobs:
         run: terraform init
 
       - name: Download plan file
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: tfplan
           path: .
