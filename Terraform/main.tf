@@ -100,7 +100,7 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   name                  = "VM-SANT-SPCSPT1"
   resource_group_name   = azurerm_resource_group.spcrg.name
   location              = azurerm_resource_group.spcrg.location
-  size                  = "Standard_B2ms"
+  size                  = "Standard_B2s"
   admin_username        = "azureuser"
   admin_password        = var.ADMIN_PASSWORD
   network_interface_ids = [azurerm_network_interface.spcnic.id]
