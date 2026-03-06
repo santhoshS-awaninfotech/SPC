@@ -3,22 +3,18 @@ name: Create Azure VM with TF
 on:
   workflow_dispatch:   
       inputs:
-        approve:
-          description: "Approve apply?"
-          required: true
-          default: "no"
         action:
          description: "Delete the resources at the end?"
          required: true
          type: choice
          options:
-          - NoAction
-          - Destroy
+          - plan
+          - apply
+          - destroy
         force:
          description: "Force redeploy?"
          required: false
          type: boolean
-
 
   #push:
   # branches:
@@ -34,13 +30,33 @@ env:
   ARM_TENANT_ID        : ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
-  terraform:
+  terraform-plan:
+    if: ${{ github.event.inputs.action == 'plan' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: Terraform
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.0
 
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+  terraform-apply:
+    if: ${{ github.event.inputs.action == 'apply' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Terraform
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -57,9 +73,25 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        if: ${{ github.event.inputs.approve == 'yes' }}
         run: terraform apply -auto-approve tfplan
 
-      - name: Terraform Destroy [OPTIONAL]
-        if: ${{ github.event.inputs.action == 'Destroy' }}
+  terraform-destroy:
+    if: ${{ github.event.inputs.action == 'destroy' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Terraform
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.0
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Destroy
         run: terraform destroy -auto-approve tfplan
