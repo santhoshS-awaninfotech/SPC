@@ -100,11 +100,12 @@ resource "azurerm_network_interface" "spcnic" {
     subnet_id                     = azurerm_subnet.spcsubnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.spcpip.id
-    application_security_group_ids = [
-      azurerm_application_security_group.spcasg.id
-    ]
-
   }
+}
+
+resource "azurerm_network_interface_application_security_group_association" "spc_asg_assoc" {
+  network_interface_id          = azurerm_network_interface.spcnic.id
+  application_security_group_id = azurerm_application_security_group.spcasg.id
 }
 
 resource "azurerm_network_security_group" "spcnsg" {
@@ -145,7 +146,7 @@ resource "azurerm_network_security_group" "spcnsg" {
 
 }
 
-resource "azurerm_network_interface_security_group_association" "spcnic_nsgattach" {
+resource "azurerm_network_interface_security_group_association" "spc_nsg_assoc" {
   network_interface_id      = azurerm_network_interface.spcnic.id
   network_security_group_id = azurerm_network_security_group.spcnsg.id
 }
