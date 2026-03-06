@@ -16,7 +16,7 @@ variable "common_tags" {
 #  default = 3
 #}
 
-variable "admin_password" {
+variable "ADMIN_PASSWORD" {
   description = "Admin password for the VM"
   type        = string
   sensitive   = true
