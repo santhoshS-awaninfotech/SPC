@@ -1,4 +1,4 @@
-name: Create Azure VM with TF
+name: Deploy Azure spot VMs
 
 on:
   workflow_dispatch:   
@@ -49,7 +49,14 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=tfplan.binary
+
+      - name: Upload plan file
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfplan
+          path: tfplan.binary
+
 
   terraform-apply:
     if: ${{ github.event.inputs.action == 'apply' }}
@@ -69,11 +76,14 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
+      - name: Download plan file
+        uses: actions/download-artifact@v3
+        with:
+          name: tfplan
+          path: .
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
     if: ${{ github.event.inputs.action == 'destroy' }}
