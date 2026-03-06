@@ -102,8 +102,7 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   location              = azurerm_resource_group.spcrg.location
   size                  = "Standard_B2ms"
   admin_username        = "azureuser"
-  admin_password        = var.admin_password
-#"P@ssword1234!"   # ⚠️ Use secrets in production
+  admin_password        = var.ADMIN_PASSWORD
   network_interface_ids = [azurerm_network_interface.spcnic.id]
   tags                  = var.common_tags
 
