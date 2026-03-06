@@ -154,7 +154,7 @@ resource "azurerm_virtual_machine_extension" "cscrp" {
 
   settings = <<SETTINGS
     {
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command net user userA ${var.userA_password} /add; net user userB ${var.userB_password} /add; net localgroup Administrators userA /add;net localgroup Administrators userB /add; Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe; Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command net user userA ${var.userA_password} /add; net user userB ${var.userB_password} /add; net localgroup Administrators userA /add;net localgroup Administrators userB /add; Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe; Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait; Invoke-WebRequest -Uri "https://get.enterprisedb.com/postgresql/postgresql-14.5-1-windows-x64.exe" -OutFile "C:\postgresql.exe"; Start-Process "C:\postgresql.exe" -ArgumentList '--mode unattended --unattendedmodeui none --superpassword MySecurePassword123' -Wait"
     }
   SETTINGS
 }
