@@ -4,15 +4,11 @@ on:
   workflow_dispatch:   
       inputs:
         action:
-         description: "Delete the resources at the end?"
-         required: true
-         type: choice
-         options:
-          - plan
-          - apply
-          - destroy
-        force:
-         description: "Ensure your TF plan reviewed, if you do apply?"
+         description: "Ensure your TF plan reviewed, if you do apply"
+         required: false
+         type: boolean
+        skip:
+         description: "Destroy required?"
          required: false
          type: boolean
 
@@ -60,6 +56,7 @@ jobs:
 
   terraform-apply:
     needs: terraform-plan
+    environment: critical
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -83,11 +80,13 @@ jobs:
           path: Terraform
 
       - name: Terraform Apply
-        if: ${{ github.event.inputs.force == 'true' }}
+        if: ${{ github.event.inputs.action == 'true' }}
         run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
     needs: terraform-apply
+    if: ${{ github.event.inputs.skip == 'true' }}
+    environment: critical
     runs-on: ubuntu-latest
     defaults:
       run:
