@@ -2,17 +2,22 @@ name: Deploy Azure spot VMs
 
 on:
   workflow_dispatch:   
- #     inputs:
-  #      action:
-#         description: "Ensure your TF plan reviewed, if you do apply"
- #        required: false
+    inputs:
+       action:
+        description: "Action type"
+        required: true
+        type : choice
+        options:
+          - Create
+          - Destroy
+       note:
+        description: "Ensure to review TF plan before apply"
+        required: false
+        type : boolean
+  #push:
   #push:
   # branches:
   #   - main
-
-description: |
-   ℹ️ Reminder: Run this workflow only after merging to `main`.  This pipeline will build and deploy automatically.
-
 
 env:
   TF_VAR_ADMIN_PASSWORD: ${{ secrets.AZURE_VM_ADMIN_PASSWORD }}
@@ -53,6 +58,7 @@ jobs:
 
   terraform-apply:
     needs: terraform-plan
+    if: ${{ github.event.inputs.action== 'Create' }}
     environment: critical
     runs-on: ubuntu-latest
     defaults:
@@ -80,8 +86,8 @@ jobs:
         run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
-    needs: terraform-apply
-    if: ${{ false }}
+    needs: terraform-plan
+    if: ${{ github.event.inputs.action== 'Destroy' }}
     environment: critical
     runs-on: ubuntu-latest
     defaults:
@@ -99,5 +105,11 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Download plan file
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: Terraform
+
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve tfplan
+        run: terraform destroy -auto-approve tfplan.binary
