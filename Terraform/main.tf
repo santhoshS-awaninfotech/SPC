@@ -113,9 +113,9 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   }
 
   source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2025-Datacenter"
+    publisher = "microsoftwindowsdesktop"
+    offer     = "windows-11"
+    sku       = "win11-25h2-ent"
     version   = "latest"
   }
 
