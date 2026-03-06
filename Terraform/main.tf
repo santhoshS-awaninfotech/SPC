@@ -197,10 +197,12 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   #     port     = 5985
   #   }
   # }
+  
+}
 
 resource "azurerm_virtual_machine_extension" "cscrp" {
-  name                 = "sant-extn-cscrp"
-  virtual_machine_id   = azurerm_windows_virtual_machine.example.id
+  name                 = "sant-cuscript-extn"
+  virtual_machine_id   = azurerm_windows_virtual_machine.spcvm.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.10"
@@ -211,5 +213,4 @@ resource "azurerm_virtual_machine_extension" "cscrp" {
     }
   SETTINGS
 }
-  
-}
+
