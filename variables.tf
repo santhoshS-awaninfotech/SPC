@@ -11,7 +11,13 @@ variable "common_tags" {
   }
 }
 
-variable "rg_count" {
-  type    = number
-  default = 3
+#variable "rg_count" {
+#  type    = number
+#  default = 3
+#}
+
+variable "admin_password" {
+  description = "Admin password for the VM"
+  type        = string
+  sensitive   = true
 }
