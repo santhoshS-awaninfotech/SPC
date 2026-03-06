@@ -12,7 +12,7 @@ on:
           - apply
           - destroy
         force:
-         description: "Force redeploy?"
+         description: "Ensure your TF plan reviewed, if you do apply?"
          required: false
          type: boolean
 
@@ -83,6 +83,7 @@ jobs:
           path: .
 
       - name: Terraform Apply
+        if: ${{ github.event.inputs.force == 'true' }}
         run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
