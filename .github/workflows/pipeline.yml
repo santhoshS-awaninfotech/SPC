@@ -11,7 +11,7 @@ on:
           - Create
           - Destroy
        note:
-        description: "Ensure to review TF plan before apply"
+        description: "Ensure to review TF plan before you approve it"
         required: false
         type : boolean
   #push:
