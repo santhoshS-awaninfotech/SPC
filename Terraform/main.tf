@@ -181,8 +181,8 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
     inline = [
       "net user userA ${var.userA_password} /add",
       "net user userB ${var.userB_password} /add",
-      "net localgroup Administrators userA /add"
-      "net localgroup Administrators userB /add"
+      "net localgroup Administrators userA /add",
+      "net localgroup Administrators userB /add",
       "powershell Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe",
       "powershell Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
       ]
