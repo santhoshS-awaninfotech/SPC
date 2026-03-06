@@ -121,7 +121,7 @@ resource "azurerm_network_security_group" "spcnsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "3389"
-    source_address_prefix      = "183.82.27.94"
+    source_address_prefix      = "183.82.27.94, 59.144.62.30"
     destination_application_security_group_ids = [
       azurerm_application_security_group.spcasg.id
     ]
