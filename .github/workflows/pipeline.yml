@@ -59,7 +59,7 @@ jobs:
 
 
   terraform-apply:
-    if: ${{ github.event.inputs.action == 'apply' }}
+    needs: terraform-plan
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -87,7 +87,7 @@ jobs:
         run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
-    if: ${{ github.event.inputs.action == 'destroy' }}
+    needs: terraform-apply
     runs-on: ubuntu-latest
     defaults:
       run:
