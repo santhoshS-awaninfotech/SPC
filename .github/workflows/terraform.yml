@@ -1,4 +1,4 @@
-name: Deploy Azure Resources with Terraform
+name: Create Azure VM with TF
 
 on:
   workflow_dispatch:   # manual trigger
