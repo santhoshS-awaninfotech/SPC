@@ -45,9 +45,12 @@
 name: 'Terraform'
 
 on:
- # push:
-  #  branches: [ "main" ]
- # pull_request:
+  workflow_dispatch:
+    inputs:
+      approve:
+        type: boolean
+        description: "Require approval"
+
 
 permissions:
   contents: read
