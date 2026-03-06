@@ -166,6 +166,7 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
     name                 = "osdisk-VM-SANT-SPC-SPOT1"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb         = 60
   }
 
   source_image_reference {
@@ -179,36 +180,36 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   eviction_policy = "Deallocate"
   #max_price = -1
 
-  provisioner "remote-exec" {
-    inline = [
-      "net user userA ${var.userA_password} /add",
-      "net user userB ${var.userB_password} /add",
-      "net localgroup Administrators userA /add",
-      "net localgroup Administrators userB /add",
-      "powershell Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe",
-      "powershell Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
-      ]
-    connection {
-      type     = "winrm"
-      host     = self.public_ip_address
-      user     = self.admin_username
-      password = self.admin_password
-      port     = 5985
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "net user userA ${var.userA_password} /add",
+  #     "net user userB ${var.userB_password} /add",
+  #     "net localgroup Administrators userA /add",
+  #     "net localgroup Administrators userB /add",
+  #     "powershell Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe",
+  #     "powershell Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
+  #     ]
+  #   connection {
+  #     type     = "winrm"
+  #     host     = self.public_ip_address
+  #     user     = self.admin_username
+  #     password = self.admin_password
+  #     port     = 5985
+  #   }
+  # }
+
+resource "azurerm_virtual_machine_extension" "cscrp" {
+  name                 = "sant-extn-cscrp"
+  virtual_machine_id   = azurerm_windows_virtual_machine.example.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.10"
+
+  settings = <<SETTINGS
+    {
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command net user userA ${var.userA_password} /add; net user userB ${var.userB_password} /add; net localgroup Administrators userA /add;net localgroup Administrators userB /add; Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe; Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
     }
-  }
-
-# resource "azurerm_virtual_machine_extension" "add_users" {
-#   name                 = "add-users"
-#   virtual_machine_id   = azurerm_windows_virtual_machine.example.id
-#   publisher            = "Microsoft.Compute"
-#   type                 = "CustomScriptExtension"
-#   type_handler_version = "1.10"
-
-#   settings = <<SETTINGS
-#     {
-#       "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command net user user1 ${var.user1_password} /add; net user user2 ${var.user2_password} /add"
-#     }
-#   SETTINGS
-# }
+  SETTINGS
+}
   
 }
