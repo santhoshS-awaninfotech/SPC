@@ -2,13 +2,17 @@ name: Deploy Azure spot VMs
 
 on:
   workflow_dispatch:   
-      inputs:
-        action:
-         description: "Ensure your TF plan reviewed, if you do apply"
-         required: false
+ #     inputs:
+  #      action:
+#         description: "Ensure your TF plan reviewed, if you do apply"
+ #        required: false
   #push:
   # branches:
   #   - main
+
+description: |
+   ℹ️ Reminder: Run this workflow only after merging to `main`.  This pipeline will build and deploy automatically.
+
 
 env:
   TF_VAR_ADMIN_PASSWORD: ${{ secrets.AZURE_VM_ADMIN_PASSWORD }}
