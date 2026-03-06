@@ -101,7 +101,7 @@ resource "azurerm_network_interface" "spcnic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.spcpip.id
     application_security_group_ids = [
-      azurerm_application_security_group.vm_asg.id
+      azurerm_application_security_group.spcasg.id
     ]
 
   }
