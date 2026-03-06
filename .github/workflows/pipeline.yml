@@ -27,7 +27,6 @@ env:
 
 jobs:
   terraform-plan:
-    if: ${{ github.event.inputs.action == 'plan' }}
     runs-on: ubuntu-latest
     defaults:
       run:
