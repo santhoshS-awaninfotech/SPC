@@ -7,6 +7,19 @@ on:
           description: "Approve apply?"
           required: true
           default: "no"
+        action:
+         description: "Delete the resources at the end?"
+         required: true
+         type: choice
+         options:
+          - NoAction
+          - Destroy
+        force:
+         description: "Force redeploy?"
+         required: false
+         type: boolean
+
+
   #push:
   # branches:
   #   - main
@@ -45,3 +58,7 @@ jobs:
       - name: Terraform Apply
         if: ${{ github.event.inputs.approve == 'yes' }}
         run: terraform apply -auto-approve tfplan
+
+      - name: Terraform Destroy [OPTIONAL]
+        if: ${{ github.event.inputs.action == 'Destroy' }}
+        run: terraform destroy -auto-approve tfplan
