@@ -82,6 +82,13 @@ resource "azurerm_public_ip" "spcpip" {
   tags                = var.common_tags
 }
 
+resource "azurerm_application_security_group" "spcasg" {
+  name                = "ASG-SANT-FOR-SPC-VM"
+  location            = azurerm_resource_group.spcrg.location
+  resource_group_name = azurerm_resource_group.spcrg.name
+  tags                  = var.common_tags
+}
+
 resource "azurerm_network_interface" "spcnic" {
   name                = "NIC-SANT-SPC-VM1"
   location            = azurerm_resource_group.spcrg.location
@@ -93,7 +100,54 @@ resource "azurerm_network_interface" "spcnic" {
     subnet_id                     = azurerm_subnet.spcsubnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.spcpip.id
+    application_security_group_ids = [
+      azurerm_application_security_group.vm_asg.id
+    ]
+
   }
+}
+
+resource "azurerm_network_security_group" "spcnsg" {
+  name                = "NSG-SANT-FOR-SPC-VM"
+  location            = azurerm_resource_group.spcrg.location
+  resource_group_name = azurerm_resource_group.spcrg.name
+  tags                  = var.common_tags
+  security_rule {
+    name                       = "Allow-RDP"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "183.82.27.94"
+    destination_application_security_group_ids = [
+      azurerm_application_security_group.spcasg.id
+    ]
+
+  }
+
+  security_rule {
+    name                       = "Allow-ICMP"
+    priority                   = 300
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Icmp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "10.0.0.0/8"
+    destination_application_security_group_ids = [
+      azurerm_application_security_group.spcasg.id
+    ]
+
+    #destination_address_prefix = "*"
+  }
+
+}
+
+resource "azurerm_network_interface_security_group_association" "spcnic_nsgattach" {
+  network_interface_id      = azurerm_network_interface.spcnic.id
+  network_security_group_id = azurerm_network_security_group.spcnsg.id
 }
 
 resource "azurerm_windows_virtual_machine" "spcvm" {
@@ -122,4 +176,31 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   priority        = "Spot"
   eviction_policy = "Deallocate"
   #max_price = -1
+
+  provisioner "remote-exec" {
+    inline = [
+      "net user userA ${var.userA_password} /add",
+      "net user userB ${var.userB_password} /add",
+      "net localgroup Administrators userA /add"
+      "net localgroup Administrators userB /add"
+      "powershell Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe -OutFile C:\\python-installer.exe",
+      "powershell Start-Process C:\\python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait"
+      ]
+
+  }
+
+# resource "azurerm_virtual_machine_extension" "add_users" {
+#   name                 = "add-users"
+#   virtual_machine_id   = azurerm_windows_virtual_machine.example.id
+#   publisher            = "Microsoft.Compute"
+#   type                 = "CustomScriptExtension"
+#   type_handler_version = "1.10"
+
+#   settings = <<SETTINGS
+#     {
+#       "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command net user user1 ${var.user1_password} /add; net user user2 ${var.user2_password} /add"
+#     }
+#   SETTINGS
+# }
+  
 }
