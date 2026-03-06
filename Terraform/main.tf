@@ -121,7 +121,5 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
 
   priority        = "Spot"
   eviction_policy = "Deallocate"
-  billing_profile {
-    max_price = -1 
-  }
+  max_price = -1
 }
