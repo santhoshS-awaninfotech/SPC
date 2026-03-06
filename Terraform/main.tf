@@ -119,10 +119,9 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
     version   = "latest"
   }
 
-  # 👇 Spot instance configuration
   priority        = "Spot"
-  eviction_policy = "Deallocate"   # or "Delete"
+  eviction_policy = "Deallocate"
   billing_profile {
-    max_price = -1   # -1 means pay up to the regular price cap
+    max_price = -1 
   }
 }
