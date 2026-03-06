@@ -118,8 +118,11 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
     sku       = "2019-Datacenter"
     version   = "latest"
   }
-
-  priority        = "Spot"
-  eviction_policy = "Deallocate"
-  max_price = -1
+  spot {
+    eviction_policy = "Deallocate"
+    max_price = "-1"
+  }
+  #priority        = "Spot"
+  #eviction_policy = "Deallocate"
+  #max_price = -1
 }
