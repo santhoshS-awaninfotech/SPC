@@ -70,7 +70,7 @@ resource "azurerm_virtual_network" "spcvnet" {
 resource "azurerm_subnet" "spcsubnet" {
   name                 = "SN_SANT_SPC"
   resource_group_name  = azurerm_resource_group.spcrg.name
-  virtual_network_name = azurerm_virtual_network.spcrg.name
+  virtual_network_name = azurerm_virtual_network.spcvnet.name
   address_prefixes     = ["10.11.0.0/25"]
 }
 
