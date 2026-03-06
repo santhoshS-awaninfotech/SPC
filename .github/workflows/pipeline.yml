@@ -1,4 +1,4 @@
-name: Deploy Azure spot VMs
+name: Deploy spotVMs in Azure
 
 on:
   workflow_dispatch:   
