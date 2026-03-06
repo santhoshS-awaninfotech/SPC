@@ -80,7 +80,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
-          path: .
+          path: Terraform
 
       - name: Terraform Apply
         if: ${{ github.event.inputs.force == 'true' }}
