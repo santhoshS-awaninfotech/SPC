@@ -6,7 +6,6 @@ on:
         action:
          description: "Ensure your TF plan reviewed, if you do apply"
          required: false
-         type: boolean
   #push:
   # branches:
   #   - main
@@ -74,7 +73,6 @@ jobs:
           path: Terraform
 
       - name: Terraform Apply
-        if: ${{ github.event.inputs.action == 'true' }}
         run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
