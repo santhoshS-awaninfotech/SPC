@@ -7,11 +7,6 @@ on:
          description: "Ensure your TF plan reviewed, if you do apply"
          required: false
          type: boolean
-        skip:
-         description: "Destroy required?"
-         required: false
-         type: boolean
-
   #push:
   # branches:
   #   - main
@@ -84,7 +79,7 @@ jobs:
 
   terraform-destroy:
     needs: terraform-apply
-    if: ${{ github.event.inputs.skip == 'true' }}
+    if: ${{ false }}
     environment: critical
     runs-on: ubuntu-latest
     defaults:
