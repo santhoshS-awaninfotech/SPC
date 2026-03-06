@@ -10,9 +10,9 @@ on:
         options:
           - Create
           - Destroy
-       note:
+       check:
         description: "Ensure to review TF plan before you approve it"
-        required: false
+        default: false
         type : boolean
   #push:
   #push:
@@ -83,6 +83,7 @@ jobs:
           path: Terraform
 
       - name: Terraform Apply
+        if: ${{ github.event.inputs.check== 'true' }}
         run: terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
@@ -112,4 +113,5 @@ jobs:
           path: Terraform
 
       - name: Terraform Destroy
+        if: ${{ github.event.inputs.check== 'true' }}
         run: terraform destroy -auto-approve tfplan.binary
