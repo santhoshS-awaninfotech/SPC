@@ -22,14 +22,14 @@ variable "ADMIN_PASSWORD" {
   sensitive   = true
 }
 
-variable "userA_password" {
-  description = "User password for the VM"
-  type        = string
-  sensitive   = true
-}
+# variable "userA_password" {
+#   description = "User password for the VM"
+#   type        = string
+#   sensitive   = true
+# }
 
-variable "userB_password" {
-  description = "User password for the VM"
-  type        = string
-  sensitive   = true
-}
+# variable "userB_password" {
+#   description = "User password for the VM"
+#   type        = string
+#   sensitive   = true
+# }
