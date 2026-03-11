@@ -133,11 +133,16 @@ resource "azurerm_virtual_machine_extension" "cscrp" {
   type                 = "CustomScriptExtension"
   type_handler_version = "1.10"
 
-  settings = <<SETTINGS
-    {
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command ${file("${path.module}/scripts/boot.ps1")}"
+  # settings = <<SETTINGS
+  #   {
+  #     "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command ${file("${path.module}/scripts/boot.ps1")}"
 
-    }
-  SETTINGS
+  #   }
+  # SETTINGS
+    settings = jsonencode({
+    commandToExecute = "powershell -ExecutionPolicy Unrestricted -Command ${file("${path.module}/scripts/boot.ps1")}"
+  })
 }
+
+
 
