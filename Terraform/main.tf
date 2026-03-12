@@ -108,6 +108,7 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   admin_password        = var.ADMIN_PASSWORD
   network_interface_ids = [azurerm_network_interface.spcnic.id]
   tags                  = var.common_tags
+  vm_agent_platform_updates_enabled = false
 
   os_disk {
     name                 = "osdisk-VM-SANT-SPC-SPOT1"
