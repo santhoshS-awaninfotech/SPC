@@ -10,7 +10,7 @@ net user userB $env:USERB_PASSWORD /add; net localgroup Administrators userB /ad
 
 #2. Install Python
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
-winget install --id Python.Python.3 --source winget --accept-source-agreements --accept-package-agreements -e;
+winget install --id Python.Python.3.14 --source winget --accept-source-agreements --accept-package-agreements -e;
 }
 
 #3.1 Install PostgreSQL
