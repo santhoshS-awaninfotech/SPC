@@ -1,3 +1,11 @@
+resource "azurerm_storage_blob" "boot_script" {
+  name                   = "boot.ps1"
+  storage_account_name   = "stawan"
+  storage_container_name = "sant"
+  type                   = "Block"
+  source                 = "${path.module}/scripts/boot.ps1"
+}
+
 resource "azurerm_virtual_machine_extension" "cscrp" {
   name                 = "sant-cuscript-extn"
   virtual_machine_id   = azurerm_windows_virtual_machine.spcvm.id

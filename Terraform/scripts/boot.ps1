@@ -1,4 +1,4 @@
-#boot script
+#boot script HELLO I"M COPIED
 
 #1. Create users
 if (-not (Get-LocalUser -Name "userA" -ErrorAction SilentlyContinue)) {
@@ -11,9 +11,12 @@ net user userB $env:USERB_PASSWORD /add; net localgroup Administrators userB /ad
 # Wait until winget is available
 Write-Host "Waiting for winget to be installed and ready..."
 
-while (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+$maxAttempts = 60   # 10 minutes
+$attempt = 0
+while (-not (Get-Command winget -ErrorAction SilentlyContinue) -and $attempt -lt $maxAttempts) {
     Start-Sleep -Seconds 10
-    Write-Host "winget not found yet, retrying..."
+    $attempt++
+    Write-Host "winget not found yet, retrying... ($attempt)"
 }
 Write-Host "winget is now available!"
 
