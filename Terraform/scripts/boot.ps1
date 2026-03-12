@@ -8,6 +8,15 @@ if (-not (Get-LocalUser -Name "userB" -ErrorAction SilentlyContinue)) {
 net user userB $env:USERB_PASSWORD /add; net localgroup Administrators userB /add;
 }
 
+# Wait until winget is available
+Write-Host "Waiting for winget to be installed and ready..."
+
+while (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+    Start-Sleep -Seconds 10
+    Write-Host "winget not found yet, retrying..."
+}
+Write-Host "winget is now available!"
+
 #2. Install Python
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
 winget install --id Python.Python.3.14 --source winget --accept-source-agreements --accept-package-agreements -e;
