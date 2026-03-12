@@ -125,22 +125,10 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   priority        = "Spot"
   eviction_policy = "Deallocate" 
 
-  custom_data = filebase64("${path.module}/scripts/boot.ps1")
+  #custom_data = filebase64("${path.module}/scripts/boot.ps1")
 }
 
-# resource "azurerm_virtual_machine_extension" "cscrp" {
-#   name                 = "sant-cuscript-extn"
-#   virtual_machine_id   = azurerm_windows_virtual_machine.spcvm.id
-#   publisher            = "Microsoft.Compute"
-#   type                 = "CustomScriptExtension"
-#   type_handler_version = "1.10"
 
-#   settings = <<SETTINGS
-#     {g
-#       "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command ${file("${path.module}/scripts/boot.ps1")}"
-#     }
-#   SETTINGS
-# }
 
 
 
