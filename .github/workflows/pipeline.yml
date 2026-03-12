@@ -20,6 +20,7 @@ on:
   #   - main
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   TF_VAR_ADMIN_PASSWORD: ${{ secrets.AZURE_VM_ADMIN_PASSWORD }}
   TF_VAR_userA_password: ${{ secrets.AZURE_VM_USERA_PASSWORD }}
   TF_VAR_userB_password: ${{ secrets.AZURE_VM_USERB_PASSWORD }}
@@ -37,10 +38,10 @@ jobs:
         working-directory: Terraform
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.0
 
@@ -67,10 +68,10 @@ jobs:
         working-directory: Terraform
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.0
 
@@ -97,10 +98,10 @@ jobs:
         working-directory: Terraform
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.0
 
