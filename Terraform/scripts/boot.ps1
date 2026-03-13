@@ -11,14 +11,27 @@ net user userB $env:USERB_PASSWORD /add; net localgroup Administrators userB /ad
 # Wait until winget is available
 Write-Host "Waiting for winget to be installed and ready..."
 
-$maxAttempts = 60   # 10 minutes
-$attempt = 0
-while (-not (Get-Command winget -ErrorAction SilentlyContinue) -and $attempt -lt $maxAttempts) {
-    Start-Sleep -Seconds 10
-    $attempt++
-    Write-Host "winget not found yet, retrying... ($attempt)"
-}
-Write-Host "winget is now available!"
+# Define download URL for winget (App Installer package)
+$wingetUrl = "https://aka.ms/getwinget"
+
+# Temporary download path
+$tempPath = "$env:TEMP\Microsoft.DesktopAppInstaller.appxbundle"
+
+# Download the App Installer package
+Invoke-WebRequest -Uri $wingetUrl -OutFile $tempPath
+
+# Add-AppxPackage installs it system-wide
+Add-AppxPackage -Path $tempPath
+
+# Copy winget.exe to System32 for global availability
+$sourcePath = "C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller*\winget.exe"
+$destPath   = "C:\Windows\System32\winget.exe"
+
+Copy-Item -Path $sourcePath -Destination $destPath -Force
+
+
+if (Test-Path $destPath ) {
+    Write-Output "winget.exe exists"
 
 #2. Install Python
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
@@ -42,3 +55,4 @@ Restart-Service postgresql-x64-16;
 (Get-Content $pgHbaPath) -replace "trust","scram-sha-256" | Set-Content $pgHbaPath;
 Restart-Service postgresql-x64-16;
 }
+} else {Write-Output "winget.exe not found"}
