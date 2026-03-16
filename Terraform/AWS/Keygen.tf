@@ -16,7 +16,7 @@ resource "azurerm_storage_blob" "ec2_private_key" {
   source_content         = tls_private_key.tpk.private_key_pem
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes  = [source_content]
   }
 }
