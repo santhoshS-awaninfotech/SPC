@@ -105,7 +105,7 @@ resource "azurerm_windows_virtual_machine" "spcvm" {
   location              = azurerm_resource_group.spcrg.location
   size                  = "Standard_D2als_v6"
   admin_username        = "azadmin"
-  admin_password        = var.ADMIN_PASSWORD
+  admin_password        = var.admin_password
   network_interface_ids = [azurerm_network_interface.spcnic.id]
   tags                  = var.common_tags
   vm_agent_platform_updates_enabled = false

@@ -60,7 +60,7 @@ resource "aws_network_interface" "spc_nic" {
   subnet_id       = aws_subnet.spcsubnet.id
   security_groups = [aws_security_group.rdprule.id]
 
-  tags = merge(local.common_tags, { Name = "windows-nic" })
+  tags = merge(var.common_tags, { Name = "windows-nic" })
 }
 
 data "aws_ami" "windows" {
