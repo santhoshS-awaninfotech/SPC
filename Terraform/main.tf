@@ -56,3 +56,7 @@ variable "cloud" {
   description = "Target cloud provider"
   type        = string
 }
+
+variable "region" {
+  type        = string
+}
