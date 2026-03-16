@@ -63,11 +63,6 @@ resource "aws_network_interface" "spc_nic" {
   tags = merge(local.common_tags, { Name = "windows-nic" })
 }
 
-resource "aws_key_pair" "main" {
-  key_name   = "my-key"
-  public_key = file("~/.ssh/sant-kee.pub")
-}
-
 data "aws_ami" "windows" {
   most_recent = true
   owners      = ["amazon"]
