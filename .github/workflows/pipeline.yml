@@ -44,6 +44,7 @@ env:
 
 jobs:
   terraform-plan:
+    if: ${{ github.event.inputs.action == 'Create' }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -100,7 +101,6 @@ jobs:
         run:  terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
-    needs: terraform-plan
     if: ${{ github.event.inputs.action == 'Destroy' }}
     environment: critical
     runs-on: ubuntu-latest
