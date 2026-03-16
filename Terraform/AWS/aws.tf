@@ -8,25 +8,22 @@ resource "aws_vpc" "spcvpc" {
 
 # Subnet
 resource "aws_subnet" "spcsubnet" {
-  name              = "SPC_SUBNET1"
   vpc_id            = aws_vpc.spcvpc.id
   cidr_block        = "10.100.1.0/25"
   availability_zone = var.availability_zone
-  tags              = var.common_tags
+  tags = merge(var.common_tags, { Name = "SPC_SUBNET1" })
 }
 
 # Internet Gateway
 resource "aws_internet_gateway" "spcgw" {
-  name   = "SPC_IGW"
   vpc_id = aws_vpc.spcvpc.id
-  tags   = var.common_tags
+  tags = merge(var.common_tags, { Name = "SPC_IGW" })
 }
 
 # Route Table
 resource "aws_route_table" "spcrt" {
-  name   = "SPC_ROUTETABLE"
   vpc_id = aws_vpc.spcvpc.id
-  tags   = var.common_tags
+  tags = merge(var.common_tags, { Name = "SPC_ROUTETABLE" })
 }
 
 resource "aws_route" "internet_access" {
