@@ -68,9 +68,19 @@ resource "aws_key_pair" "main" {
   public_key = file("~/.ssh/sant-kee.pub")
 }
 
+data "aws_ami" "windows" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["Windows_Server-2019-English-Full-Base-*"]
+  }
+}
+
 # EC2 Instance
 resource "aws_instance" "spcec2" {
-  ami           = var.ami_id
+  ami           = data.aws_ami.windows.id
   instance_type = var.instance_type
   subnet_id     = aws_subnet.spcsubnet.id
   key_name      = aws_key_pair.ec2.key_name

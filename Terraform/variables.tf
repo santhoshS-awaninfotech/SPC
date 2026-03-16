@@ -34,10 +34,7 @@ variable "instance_type" {
  default = "t3.micro"
 }
 
-variable "ami_id" {
-  description = "AMI ID for Mumbai region"
-  type        = string
-}
+
 
 #VM
 variable "ADMIN_PASSWORD" {
