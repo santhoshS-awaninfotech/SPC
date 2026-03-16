@@ -58,5 +58,6 @@ variable "cloud" {
 }
 
 variable "region" {
-  type        = string
+ type    = string
+ default = "ap-south-1"
 }
