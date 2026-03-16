@@ -77,7 +77,7 @@ data "aws_ami" "windows" {
 resource "aws_instance" "spcec2" {
   ami           = data.aws_ami.windows.id
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.spcsubnet.id
+  #subnet_id     = aws_subnet.spcsubnet.id
   key_name      = aws_key_pair.akp.key_name
   #associate_public_ip_address = true
 
