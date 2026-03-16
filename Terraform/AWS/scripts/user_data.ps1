@@ -1,13 +1,13 @@
 
 #0 
-net user Administrator $env:ADMIN_PASSWORD
+net user Administrator "${ADMIN_PASSWORD}"
 
 #1. Create users
 if (-not (Get-LocalUser -Name "userA" -ErrorAction SilentlyContinue)) {
-net user userA $env:USERA_PASSWORD /add; net localgroup Administrators userA /add; 
+net user userA "${USERA_PASSWORD}" /add; net localgroup Administrators userA /add; 
 }
 if (-not (Get-LocalUser -Name "userB" -ErrorAction SilentlyContinue)) {
-net user userB $env:USERB_PASSWORD /add; net localgroup Administrators userB /add;
+net user userB "${USERB_PASSWORD}" /add; net localgroup Administrators userB /add;
 }
 
 #2. Install Python
@@ -27,7 +27,7 @@ $pgUrl = "https://get.enterprisedb.com/postgresql/postgresql-18.3-2-windows-x64.
 $pgInstaller = "$env:TEMP\postgresql-installer.exe"
 Invoke-WebRequest -Uri $pgUrl -OutFile $pgInstaller
 
-Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\16"" --datadir ""C:\Program Files\PostgreSQL\16\data"" --superpassword $env:PGSQLPASSWORD" -Wait
+Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\16"" --datadir ""C:\Program Files\PostgreSQL\16\data"" --superpassword ""${PGSQLPASSWORD}""" -Wait
 write-output "PostgreSQL completed"
 } 
 

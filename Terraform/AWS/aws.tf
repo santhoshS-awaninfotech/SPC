@@ -2,11 +2,13 @@
 
 # VPC
 resource "aws_vpc" "spcvpc" {
+  name       = "SPC_VPC"
   cidr_block = "10.100.0.0/22"
 }
 
 # Subnet
 resource "aws_subnet" "spcsubnet" {
+  name              = "SPC_SUBNET1"
   vpc_id            = aws_vpc.spcvpc.id
   cidr_block        = "10.100.1.0/25"
   availability_zone = var.availability_zone
@@ -15,12 +17,14 @@ resource "aws_subnet" "spcsubnet" {
 
 # Internet Gateway
 resource "aws_internet_gateway" "spcgw" {
+  name   = "SPC_IGW"
   vpc_id = aws_vpc.spcvpc.id
   tags   = var.common_tags
 }
 
 # Route Table
 resource "aws_route_table" "spcrt" {
+  name   = "SPC_ROUTETABLE"
   vpc_id = aws_vpc.spcvpc.id
   tags   = var.common_tags
 }
@@ -38,7 +42,9 @@ resource "aws_route_table_association" "assoc" {
 
 # Security Group
 resource "aws_security_group" "rdprule" {
+  name        = "SG-SPC-FOR-VM1"
   vpc_id = aws_vpc.spcvpc.id
+  tags   = var.common_tags
 
   ingress {
     from_port   = 3389
@@ -56,11 +62,14 @@ resource "aws_security_group" "rdprule" {
 }
 
 resource "aws_eip" "spcpip" {
-  vpc = true
+  name   = "SPC_PIP_VM1"
+  domain = "vpc"
+  tags   = var.common_tags
 }
 
 # Create a Network Interface
 resource "aws_network_interface" "spc_nic" {
+  name            = "SPC_NIC1"
   subnet_id       = aws_subnet.spcsubnet.id
   security_groups = [aws_security_group.rdprule.id]
   tags = merge(var.common_tags, { Name = "windows-nic" })
@@ -88,6 +97,7 @@ resource "aws_instance" "spcec2" {
   #subnet_id     = aws_subnet.spcsubnet.id
   key_name      = aws_key_pair.akp.key_name
   #associate_public_ip_address = true
+  tags          = merge(var.common_tags, { Name = "spc-mumbai-vm" })
 
   network_interface {
     network_interface_id = aws_network_interface.spc_nic.id
@@ -100,8 +110,11 @@ resource "aws_instance" "spcec2" {
   }
 
   # Equivalent to Azure Custom Script Extension
-  user_data     = file("${path.module}/scripts/user_data.ps1")
-  tags          = merge(var.common_tags, { Name = "spc-mumbai-vm" })
-
+  user_data     = file("${path.module}/scripts/user_data.ps1", {
+  ADMIN_PASSWORD = var.admin_password
+  USERA_PASSWORD = var.userA_password
+  USERB_PASSWORD = var.userB_password
+  PGSQLPASSWORD  = var.pgsql_password
+})
   }
 
