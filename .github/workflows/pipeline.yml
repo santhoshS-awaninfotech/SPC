@@ -72,7 +72,7 @@ jobs:
 
   terraform-apply:
     needs: terraform-plan
-    if: ${{ github.event.inputs.action== 'Create' }}
+    if: ${{ github.event.inputs.action== 'Create' && github.event.inputs.check == 'true' }}
     environment: critical
     runs-on: ubuntu-latest
     defaults:
@@ -97,16 +97,11 @@ jobs:
           path: Terraform
 
       - name: Terraform Apply
-        run: |
-          if [ "${{ github.event.inputs.check }}" = "true" ]; then
-             terraform apply -auto-approve tfplan.binary
-          else
-              echo "SKIPPED: Terraform apply was not executed because the plan was not reviewed."
-          fi
+        run:  terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
     needs: terraform-plan
-    if: ${{ github.event.inputs.action== 'Destroy' }}
+    if: ${{ github.event.inputs.action == 'Destroy' }}
     environment: critical
     runs-on: ubuntu-latest
     defaults:
