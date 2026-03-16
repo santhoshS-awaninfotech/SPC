@@ -1,8 +1,4 @@
 
-variable "cloud" {
-  description = "Target cloud provider"
-  type        = string
-}
 
 #AWS
 variable "region" {
