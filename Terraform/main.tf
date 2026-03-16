@@ -7,6 +7,7 @@ terraform {
     storage_account_name = "stawan"
     container_name       = "sant"
     key                  = "terraform.tfstate"
+    use_azuread_auth     = true 
   }
 
   required_providers {
@@ -33,8 +34,8 @@ provider "aws" {
 }
 
 module "aws_resources" {
-  source = "./AWS"
-  count  = var.cloud == "AWS" ? 1 : 0
+  source         = "./AWS"
+  count          = var.cloud == "AWS" ? 1 : 0
   pgsql_password = var.pgsql_password
   admin_password = var.admin_password
   userA_password = var.userA_password
@@ -43,8 +44,8 @@ module "aws_resources" {
 }
 
 module "azure_resources" {
-  source = "./Azure"
-  count  = var.cloud == "Azure" ? 1 : 0
+  source         = "./Azure"
+  count          = var.cloud == "Azure" ? 1 : 0
   pgsql_password = var.pgsql_password
   admin_password = var.admin_password
   userA_password = var.userA_password
