@@ -2,8 +2,8 @@
 
 # VPC
 resource "aws_vpc" "spcvpc" {
-  name       = "SPC_VPC"
   cidr_block = "10.100.0.0/22"
+  tags = merge(var.common_tags, { Name = "SPC_VPC" })
 }
 
 # Subnet
@@ -62,9 +62,8 @@ resource "aws_security_group" "rdprule" {
 }
 
 resource "aws_eip" "spcpip" {
-  name   = "SPC_PIP_VM1"
   domain = "vpc"
-  tags   = var.common_tags
+  tags = merge(var.common_tags, { Name = "SPC_PIP_VM1" })
 }
 
 # Create a Network Interface
