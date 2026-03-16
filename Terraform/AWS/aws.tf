@@ -79,7 +79,7 @@ resource "aws_instance" "spcec2" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.spcsubnet.id
   key_name      = aws_key_pair.akp.key_name
-  associate_public_ip_address = true
+  #associate_public_ip_address = true
 
   network_interface {
     network_interface_id = aws_network_interface.spc_nic.id
