@@ -10,14 +10,14 @@ on:
         options:
           - Azure
           - AWS
-       action:
+      action:
         description: "Action type"
         required: true
         type : choice
         options:
           - Create
           - Destroy
-       check:
+      check:
         description: "select, if you will review the plan before Apply [recommended]"
         default: false
         type : boolean
