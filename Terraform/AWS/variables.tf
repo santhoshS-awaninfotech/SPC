@@ -1,14 +1,4 @@
 
-variable "cloud" {
-  description = "Target cloud provider"
-  type        = string
-}
-
-#AWS
-variable "region" {
- type    = string
- default = "ap-south-1"
-}
 
 variable "availability_zone" {
  type    = string

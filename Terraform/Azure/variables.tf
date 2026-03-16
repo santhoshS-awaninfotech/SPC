@@ -1,9 +1,4 @@
 
-variable "cloud" {
-  description = "Target cloud provider"
-  type        = string
-}
-
 #Azure
 variable "location" {
   type    = string

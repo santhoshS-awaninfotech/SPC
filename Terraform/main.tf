@@ -41,3 +41,14 @@ module "azure_resources" {
   source = "./Azure"
   count  = var.cloud == "Azure" ? 1 : 0
 }
+
+variable "cloud" {
+  description = "Target cloud provider"
+  type        = string
+}
+
+#AWS
+variable "region" {
+ type    = string
+ default = "ap-south-1"
+}
