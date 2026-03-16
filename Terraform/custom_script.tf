@@ -15,7 +15,7 @@ resource "azurerm_virtual_machine_extension" "cscrp" {
 
   settings = <<SETTINGS
     {
-      "fileUris": ["https://stawan.blob.core.windows.net/sant/boot.ps1?sp=r&st=2026-03-13T09:21:53Z&se=2026-03-14T17:36:53Z&spr=https&sv=2024-11-04&sr=b&sig=A%2BC30D4SWsFX5s8K6tk6q5Oehc85hasAePEGN%2BSANoo%3D"],
+      "fileUris": ["https://stawan.blob.core.windows.net/sant/boot.ps1?sp=r&st=2026-03-16T07:30:10Z&se=2026-03-21T15:45:10Z&spr=https&sv=2024-11-04&sr=b&sig=3e2EC9RC9%2Bjf9ScnEhZuP%2FotsO8fSGF6B5BFlI15usU%3D"],
       "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File boot.ps1"
     }
   SETTINGS
