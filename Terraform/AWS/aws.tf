@@ -55,12 +55,20 @@ resource "aws_security_group" "rdprule" {
   }
 }
 
+resource "aws_eip" "spcpip" {
+  vpc = true
+}
+
 # Create a Network Interface
 resource "aws_network_interface" "spc_nic" {
   subnet_id       = aws_subnet.spcsubnet.id
   security_groups = [aws_security_group.rdprule.id]
-
   tags = merge(var.common_tags, { Name = "windows-nic" })
+}
+
+resource "aws_eip_association" "pip_assoc" {
+  allocation_id        = aws_eip.spcpip.id
+  network_interface_id = aws_network_interface.spc_nic.id
 }
 
 data "aws_ami" "windows" {
