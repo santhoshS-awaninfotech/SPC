@@ -8,8 +8,8 @@ on:
         required: true
         type: choice
         options:
-          - Azure
           - AWS
+          - Azure
       action:
         description: "Action type"
         required: true

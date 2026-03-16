@@ -39,9 +39,8 @@ resource "aws_route_table_association" "assoc" {
 
 # Security Group
 resource "aws_security_group" "rdprule" {
-  name        = "SG-SPC-FOR-VM1"
   vpc_id = aws_vpc.spcvpc.id
-  tags   = var.common_tags
+  tags = merge(var.common_tags, { Name = "SG-SPC-FOR-VM1" })
 
   ingress {
     from_port   = 3389
