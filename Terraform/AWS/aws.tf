@@ -64,10 +64,9 @@ resource "aws_eip" "spcpip" {
 
 # Create a Network Interface
 resource "aws_network_interface" "spc_nic" {
-  name            = "SPC_NIC1"
   subnet_id       = aws_subnet.spcsubnet.id
   security_groups = [aws_security_group.rdprule.id]
-  tags = merge(var.common_tags, { Name = "windows-nic" })
+  tags = merge(var.common_tags, { Name = "SPC_NIC1" })
 }
 
 resource "aws_eip_association" "pip_assoc" {
