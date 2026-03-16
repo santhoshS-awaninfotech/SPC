@@ -1,3 +1,10 @@
+
+variable "cloud" {
+  description = "Target cloud provider"
+  type        = string
+}
+
+#Azure
 variable "location" {
   type    = string
   default = "westus2"
@@ -11,11 +18,28 @@ variable "common_tags" {
   }
 }
 
-#variable "rg_count" {
-#  type    = number
-#  default = 3
-#}
+#AWS
+variable "region" {
+ type    = string
+ default = "ap-south-1"
+}
 
+variable "availability_zone" {
+ type    = string
+ default = "ap-south-1a"
+}
+
+variable "instance_type" {
+ type    = string
+ default = "t3.micro"
+}
+
+variable "ami_id" {
+  description = "AMI ID for Mumbai region"
+  type        = string
+}
+
+#VM
 variable "ADMIN_PASSWORD" {
   description = "Admin password for the VM"
   type        = string

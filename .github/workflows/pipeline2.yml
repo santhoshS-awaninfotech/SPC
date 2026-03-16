@@ -3,13 +3,6 @@ name: Deploy Resources
 on:
   workflow_dispatch:   
     inputs:
-      cloud:
-        description: "Target cloud"
-        required: true
-        type: choice
-        options:
-          - Azure
-          - AWS
        action:
         description: "Action type"
         required: true
@@ -18,28 +11,27 @@ on:
           - Create
           - Destroy
        check:
-        description: "select, if you will review the plan before Apply [recommended]"
+        description: "Ensure to review TF plan before you approve it"
         default: false
         type : boolean
+  #push:
+  #push:
+  # branches:
+  #   - main
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  TF_VAR_cloud         : ${{ github.event.inputs.cloud }}
   TF_VAR_ADMIN_PASSWORD: ${{ secrets.AZURE_VM_ADMIN_PASSWORD }}
   TF_VAR_userA_password: ${{ secrets.AZURE_VM_USERA_PASSWORD }}
   TF_VAR_userB_password: ${{ secrets.AZURE_VM_USERB_PASSWORD }}
   TF_VAR_pgsql_password: ${{ secrets.AZURE_VM_APP_PGSQL_PASSWORD }}
-
-  # Azure secrets
   ARM_CLIENT_ID        : ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET    : ${{ secrets.AZURE_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID  : ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID        : ${{ secrets.AZURE_TENANT_ID }}
-
-  # AWS secrets
   AWS_ACCESS_KEY_ID    : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #AWS_DEFAULT_REGION   : ${{ secrets.AWS_DEFAULT_REGION }}
+  AWS_DEFAULT_REGION   : ${{ secrets.AWS_DEFAULT_REGION }}
 
 
 jobs:
@@ -48,7 +40,6 @@ jobs:
     defaults:
       run:
         working-directory: Terraform
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -68,7 +59,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: Terraform/${{ github.event.inputs.cloud }}/tfplan.binary
+          path: Terraform/tfplan.binary
+
 
   terraform-apply:
     needs: terraform-plan
@@ -94,19 +86,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
-          path: Terraform/${{ github.event.inputs.cloud }}
+          path: Terraform
 
       - name: Terraform Apply
         if: ${{ github.event.inputs.check== 'true' }}
         run: terraform apply -auto-approve tfplan.binary
-
-      - name: Terraform Apply
-        run: |
-          if [ "${{ github.event.inputs.check }}" = "true" ]; then
-             terraform apply -auto-approve tfplan.binary
-          else
-              echo "SKIPPED: Terraform apply was not executed because the plan was not reviewed."
-          fi
 
   terraform-destroy:
     needs: terraform-plan
