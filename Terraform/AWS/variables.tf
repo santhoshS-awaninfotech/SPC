@@ -4,20 +4,6 @@ variable "cloud" {
   type        = string
 }
 
-#Azure
-variable "location" {
-  type    = string
-  default = "westus2"
-}
-
-variable "common_tags" {
-  type = map(string)
-  default = {
-    Environment = "DEV"
-    Owner       = "UserA"
-  }
-}
-
 #AWS
 variable "region" {
  type    = string
@@ -33,8 +19,6 @@ variable "instance_type" {
  type    = string
  default = "t3.micro"
 }
-
-
 
 #VM
 variable "ADMIN_PASSWORD" {
