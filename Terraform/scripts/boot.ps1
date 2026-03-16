@@ -16,6 +16,7 @@ $pythonInstaller = "$env:TEMP\python-installer.exe"
 Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
 
 Start-Process -FilePath $pythonInstaller -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
+write-output "Python completed"
 }
 
 #3 Install PostgreSQL
@@ -25,6 +26,7 @@ $pgInstaller = "$env:TEMP\postgresql-installer.exe"
 Invoke-WebRequest -Uri $pgUrl -OutFile $pgInstaller
 
 Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\16"" --datadir ""C:\Program Files\PostgreSQL\16\data"" --superpassword $env:PGSQLPASSWORD" -Wait
+write-output "PostgreSQL completed"
 } 
 
 #3 Install VS Code
@@ -33,6 +35,7 @@ $vsInstaller = "$env:TEMP\vscode-installer.exe"
 Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
+write-output "VScode completed"
 
 #4 Install S3 Browser
 $s3Url = "https://s3browser.com/s3browser-11-6-7.exe"
@@ -40,3 +43,4 @@ $s3Installer = "$env:TEMP\s3browser-installer.exe"
 Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
 
 Start-Process -FilePath $s3Installer -ArgumentList "/VERYSILENT /NORESTART" -Wait
+write-output "S3 Browser completed"
