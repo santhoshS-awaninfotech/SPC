@@ -104,7 +104,7 @@ resource "aws_instance" "spcec2" {
   }
 
   # Equivalent to Azure Custom Script Extension
-  user_data     = file("${path.module}/scripts/user_data.ps1", {
+  user_data     = templatefile("${path.module}/scripts/user_data.ps1", {
   ADMIN_PASSWORD = var.admin_password
   USERA_PASSWORD = var.userA_password
   USERB_PASSWORD = var.userB_password

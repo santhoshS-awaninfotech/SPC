@@ -1,4 +1,4 @@
-name: Deploy Resources
+name: Deploy SPC Resources
 
 on:
   workflow_dispatch:   

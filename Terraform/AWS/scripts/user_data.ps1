@@ -27,7 +27,7 @@ $pgUrl = "https://get.enterprisedb.com/postgresql/postgresql-18.3-2-windows-x64.
 $pgInstaller = "$env:TEMP\postgresql-installer.exe"
 Invoke-WebRequest -Uri $pgUrl -OutFile $pgInstaller
 
-Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\16"" --datadir ""C:\Program Files\PostgreSQL\16\data"" --superpassword ""${PGSQLPASSWORD}""" -Wait
+Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\16"" --datadir ""C:\Program Files\PostgreSQL\16\data"" --superpassword ${PGSQLPASSWORD}" -Wait
 write-output "PostgreSQL completed"
 } 
 
