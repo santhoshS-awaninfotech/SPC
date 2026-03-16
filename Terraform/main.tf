@@ -51,3 +51,8 @@ module "azure_resources" {
   userA_password = var.userA_password
   userB_password = var.userB_password
 }
+
+variable "cloud" {
+  description = "Target cloud provider"
+  type        = string
+}
