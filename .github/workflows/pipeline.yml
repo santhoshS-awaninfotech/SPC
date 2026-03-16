@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: Terraform/${{ github.event.inputs.cloud }}/tfplan.binary
+          path: Terraform/tfplan.binary
 
   terraform-apply:
     needs: terraform-plan
@@ -94,11 +94,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
-          path: Terraform/${{ github.event.inputs.cloud }}
-
-      - name: Terraform Apply
-        if: ${{ github.event.inputs.check== 'true' }}
-        run: terraform apply -auto-approve tfplan.binary
+          path: Terraform
 
       - name: Terraform Apply
         run: |
