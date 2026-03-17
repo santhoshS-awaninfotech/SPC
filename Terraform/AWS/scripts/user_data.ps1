@@ -7,14 +7,15 @@ $config.adminPassword = "${ADMIN_PASSWORD}"
 $config | ConvertTo-Json | Set-Content $configPath
 
 #1. Create users
-if (-not (Get-LocalUser -Name "userA" -ErrorAction SilentlyContinue)) {
-net user userA "${USERA_PASSWORD}" /add; net localgroup Administrators userA /add; 
-}
+# Create the local user
+New-LocalUser -Name "userA" -Password "${USERA_PASSWORD}" -FullName "User A" -Description "Admin user created via script"
+# Add the user to Administrators group
+Add-LocalGroupMember -Group "Administrators" -Member "userA"
 write-output "userA completed"
 
-if (-not (Get-LocalUser -Name "userB" -ErrorAction SilentlyContinue)) {
-net user userB "${USERB_PASSWORD}" /add; net localgroup Administrators userB /add;
-}
+New-LocalUser -Name "userB" -Password "${USERB_PASSWORD}" -FullName "User B" -Description "Admin user created via script"
+# Add the user to Administrators group
+Add-LocalGroupMember -Group "Administrators" -Member "userB"
 write-output "userB completed"
 
 #2. Install Python

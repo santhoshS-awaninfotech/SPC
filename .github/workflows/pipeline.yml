@@ -102,7 +102,7 @@ jobs:
 
   terraform-destroy:
     needs: terraform-apply
-    if: ${{ github.event.inputs.action == 'Destroy' }}
+    if: ${{ always() && github.event.inputs.action == 'Destroy' }}
     environment: critical
     runs-on: ubuntu-latest
     defaults:
