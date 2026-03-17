@@ -1,19 +1,15 @@
 <powershell>
 $ErrorActionPreference = "SilentlyContinue"
-# $configPath = "C:\ProgramData\Amazon\EC2-Windows\Launch\Config\LaunchConfig.json"
-# $config = Get-Content $configPath | ConvertFrom-Json
-# $config.adminPasswordType = "Specified"
-# $config.adminPassword = "${ADMIN_PASSWORD}"
-# $config | ConvertTo-Json | Set-Content $configPath
 
 #1. Create users
-# Create the local user
-New-LocalUser -Name "userA" -Password "${USERA_PASSWORD}" -FullName "User A" -Description "Admin user created via script"
+$password = ConvertTo-SecureString "${USERA_PASSWORD}" -AsPlainText -Force
+New-LocalUser -Name "userA" -Password $password -FullName "User A" -Description "Admin user created via script"
 # Add the user to Administrators group
 Add-LocalGroupMember -Group "Administrators" -Member "userA"
 write-output "userA completed"
 
-New-LocalUser -Name "userB" -Password "${USERB_PASSWORD}" -FullName "User B" -Description "Admin user created via script"
+$password = ConvertTo-SecureString "${USERB_PASSWORD}" -AsPlainText -Force
+New-LocalUser -Name "userB" -Password $password -FullName "User B" -Description "Admin user created via script"
 # Add the user to Administrators group
 Add-LocalGroupMember -Group "Administrators" -Member "userB"
 write-output "userB completed"
