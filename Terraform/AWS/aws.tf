@@ -1,17 +1,17 @@
-#This is to create EC2 in AWS  with required settings
-
 # VPC
 resource "aws_vpc" "spcvpc" {
   cidr_block = "10.100.0.0/22"
   tags = merge(var.common_tags, { Name = "SPC_VPC" })
 }
 
-# Subnet
 resource "aws_subnet" "spcsubnet" {
+  count             = var.resource_count
   vpc_id            = aws_vpc.spcvpc.id
-  cidr_block        = "10.100.1.0/25"
+  cidr_block        = var.subnet_cidrs[count.index]
   availability_zone = var.availability_zone
-  tags = merge(var.common_tags, { Name = "SPC_SUBNET1" })
+  tags = merge(var.common_tags, {
+    Name = "SPC_SUBNET${count.index + 1}"
+  })
 }
 
 # Internet Gateway
@@ -33,7 +33,8 @@ resource "aws_route" "internet_access" {
 }
 
 resource "aws_route_table_association" "assoc" {
-  subnet_id      = aws_subnet.spcsubnet.id
+  count          = var.resource_count
+  subnet_id      = aws_subnet.spcsubnet[count.index].id
   route_table_id = aws_route_table.spcrt.id
 }
 
@@ -58,20 +59,23 @@ resource "aws_security_group" "rdprule" {
 }
 
 resource "aws_eip" "spcpip" {
+  count  = var.resource_count
   domain = "vpc"
   tags = merge(var.common_tags, { Name = "SPC_PIP_VM1" })
 }
 
 # Create a Network Interface
 resource "aws_network_interface" "spc_nic" {
+  count           = var.resource_count
   subnet_id       = aws_subnet.spcsubnet.id
   security_groups = [aws_security_group.rdprule.id]
-  tags = merge(var.common_tags, { Name = "SPC_NIC1" })
+  tags = merge(var.common_tags, { Name = "SPC_NIC${count.index}" })
 }
 
 resource "aws_eip_association" "pip_assoc" {
-  allocation_id        = aws_eip.spcpip.id
-  network_interface_id = aws_network_interface.spc_nic.id
+  count                = var.resource_count
+  allocation_id        = aws_eip.spcpip[count.index].id
+  network_interface_id = aws_network_interface.spc_nic[count.index].id
 }
 
 data "aws_ami" "windows" {
@@ -85,21 +89,22 @@ data "aws_ami" "windows" {
 }
 
 # EC2 Instance
-resource "aws_instance" "spcec2" {
+resource "aws_instance" "spcVM" {
+  count         = var.resource_count
   ami           = data.aws_ami.windows.id
   instance_type = var.instance_type
   #subnet_id     = aws_subnet.spcsubnet.id
   key_name      = aws_key_pair.akp.key_name
   #associate_public_ip_address = true
-  tags          = merge(var.common_tags, { Name = "spc-mumbai-vm" })
+  tags          = merge(var.common_tags, { Name = "spc-mumbai-vm-${count.index}" })
 
   network_interface {
-    network_interface_id = aws_network_interface.spc_nic.id
-    device_index         = 0   # primary NIC
+    network_interface_id = aws_network_interface.spc_nic[count.index].id
+    device_index         = 0 
   }
   root_block_device {
-    volume_size = 50        # Size in GB
-    volume_type = "gp3"     # General Purpose SSD
+    volume_size = 50        
+    volume_type = "gp3"    
     delete_on_termination = true
   }
 
@@ -111,4 +116,3 @@ resource "aws_instance" "spcec2" {
   PGSQLPASSWORD  = var.pgsql_password
 })
   }
-

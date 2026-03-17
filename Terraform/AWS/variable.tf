@@ -18,6 +18,16 @@ variable "instance_type" {
  default = "t3.micro"
 }
 
+variable "subnet_cidrs" {
+  type    = list(string)
+  default = ["10.100.1.0/24", "10.100.2.0/24"]
+}
+variable "resource_count" {
+ type    = number
+ default = 1
+}
+
+
 #Azure
 variable "location" {
   type    = string
@@ -49,3 +59,4 @@ variable "pgsql_password" {
   type      = string
   sensitive = true
 }
+
