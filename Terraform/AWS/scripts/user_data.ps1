@@ -39,15 +39,15 @@ write-output "PostgreSQL completed"
 } 
 
 #3 Install VS Code
-$vsUrl = "https://update.code.visualstudio.com/latest/win32-x64-user/stable"
+$vsUrl = "https://update.code.visualstudio.com/latest/win32-x64-system/stable"
 $vsInstaller = "$env:TEMP\vscode-installer.exe"
 Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
-write-output "VScode completed"
+Write-Output "VS Code installation completed"
 
 #4 Install S3 Browser
-$s3Url = "https://s3browser.com/s3browser-11-6-7.exe"
+$s3Url = "https://s3browser.com/download/s3browser-13-1-1.exe"
 $s3Installer = "$env:TEMP\s3browser-installer.exe"
 Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
 
