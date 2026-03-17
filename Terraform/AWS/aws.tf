@@ -67,7 +67,7 @@ resource "aws_eip" "spcpip" {
 # Create a Network Interface
 resource "aws_network_interface" "spc_nic" {
   count           = var.resource_count
-  subnet_id       = aws_subnet.spcsubnet.id
+  subnet_id       = aws_subnet.spcsubnet[count.index].id
   security_groups = [aws_security_group.rdprule.id]
   tags = merge(var.common_tags, { Name = "SPC_NIC${count.index}" })
 }

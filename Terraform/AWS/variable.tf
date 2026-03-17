@@ -7,7 +7,7 @@ variable "cloud" {
 #AWS
 variable "region" {
  type    = string
- default = "ap-south-1"
+ default = ""
 }
 variable "availability_zone" {
  type    = string
@@ -20,13 +20,18 @@ variable "instance_type" {
 
 variable "subnet_cidrs" {
   type    = list(string)
-  default = ["10.100.1.0/24", "10.100.2.0/24"]
+  default = ""
 }
+
+variable "vpc_cidr" {
+  type    = string
+  default = ""
+}
+
 variable "resource_count" {
  type    = number
  default = 1
 }
-
 
 #Azure
 variable "location" {
