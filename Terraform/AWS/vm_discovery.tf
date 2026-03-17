@@ -9,13 +9,13 @@ resource "aws_network_interface" "discvm_nic" {
   count           = var.discvm_count
   subnet_id       = aws_subnet.discsubnet.id
   security_groups = [aws_security_group.discovery_sg.id]
-  tags = merge(var.common_tags, { Name = "SPC_NIC${count.index + 1}" })
+  tags = merge(var.common_tags, { Name = "DISC_NIC${count.index + 1}" })
 }
 
 resource "aws_eip_association" "disc_pip_assoc" {
   count                = var.discvm_count
-  allocation_id        = aws_eip.spcpip[count.index].id
-  network_interface_id = aws_network_interface.spc_nic[count.index].id
+  allocation_id        = aws_eip.disc_pip.id
+  network_interface_id = aws_network_interface.discvm_nic.id
 }
 
 # EC2 Instance
@@ -27,7 +27,7 @@ resource "aws_instance" "DiscVM" {
   tags          = merge(var.common_tags, { Name = "Discovery-vm-${count.index + 1}" })
 
   network_interface {
-    network_interface_id = aws_network_interface.spc_nic[count.index].id
+    network_interface_id = aws_network_interface.discvm_nic.id
     device_index         = 0 
   }
   root_block_device {

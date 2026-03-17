@@ -1,4 +1,3 @@
-
 resource "aws_eip" "back_pip" {
   count  = var.backendvm_count
   domain = "vpc"
@@ -10,13 +9,13 @@ resource "aws_network_interface" "back_nic" {
   count           = var.backendvm_count
   subnet_id       = aws_subnet.backsubnet.id
   security_groups = [aws_security_group.backend_sg.id]
-  tags = merge(var.common_tags, { Name = "SPC_NIC${count.index + 1}" })
+  tags = merge(var.common_tags, { Name = "Backend_NIC${count.index + 1}" })
 }
 
 resource "aws_eip_association" "back_pip_assoc" {
   count                = var.backendvm_count
-  allocation_id        = aws_eip.spcpip[count.index].id
-  network_interface_id = aws_network_interface.spc_nic[count.index].id
+  allocation_id        = aws_eip.back_pip.id
+  network_interface_id = aws_network_interface.back_nic.id
 }
 
 # EC2 Instance
@@ -28,7 +27,7 @@ resource "aws_instance" "backVM" {
   tags          = merge(var.common_tags, { Name = "Backend-vm-${count.index + 1}" })
 
   network_interface {
-    network_interface_id = aws_network_interface.spc_nic[count.index].id
+    network_interface_id = aws_network_interface.back_nic[count.index].id
     device_index         = 0 
   }
   root_block_device {
