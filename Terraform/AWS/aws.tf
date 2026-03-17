@@ -39,9 +39,35 @@ resource "aws_route_table_association" "assoc" {
 }
 
 # Security Group
-resource "aws_security_group" "rdprule" {
+resource "aws_security_group" "vm1_sg" {
   vpc_id = aws_vpc.spcvpc.id
-  tags = merge(var.common_tags, { Name = "SG-SPC-FOR-VM1" })
+  tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-VM1" })
+
+  ingress {
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+   ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["10.100.2.0/24", "0.0.0.0/0"] # Example: only allow DB traffic inside VPC
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "vm2_sg" {
+  vpc_id = aws_vpc.spcvpc.id
+  tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-VM2" })
 
   ingress {
     from_port   = 3389
@@ -57,7 +83,6 @@ resource "aws_security_group" "rdprule" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 resource "aws_eip" "spcpip" {
   count  = var.resource_count
   domain = "vpc"
@@ -68,7 +93,9 @@ resource "aws_eip" "spcpip" {
 resource "aws_network_interface" "spc_nic" {
   count           = var.resource_count
   subnet_id       = aws_subnet.spcsubnet[count.index].id
-  security_groups = [aws_security_group.rdprule.id]
+    security_groups = [
+    element([aws_security_group.vm1_sg.id, aws_security_group.vm2_sg.id], count.index)
+  ]
   tags = merge(var.common_tags, { Name = "SPC_NIC${count.index}" })
 }
 
