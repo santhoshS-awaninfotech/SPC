@@ -1,23 +1,24 @@
 <powershell>
+$ErrorActionPreference = "SilentlyContinue"
 $configPath = "C:\ProgramData\Amazon\EC2-Windows\Launch\Config\LaunchConfig.json"
 $config = Get-Content $configPath | ConvertFrom-Json
 $config.adminPasswordType = "Specified"
 $config.adminPassword = "${ADMIN_PASSWORD}"
 $config | ConvertTo-Json | Set-Content $configPath
 
-#0 net user Administrator "${ADMIN_PASSWORD}"
-
 #1. Create users
 if (-not (Get-LocalUser -Name "userA" -ErrorAction SilentlyContinue)) {
 net user userA "${USERA_PASSWORD}" /add; net localgroup Administrators userA /add; 
 }
+write-output "userA completed"
+
 if (-not (Get-LocalUser -Name "userB" -ErrorAction SilentlyContinue)) {
 net user userB "${USERB_PASSWORD}" /add; net localgroup Administrators userB /add;
 }
+write-output "userB completed"
 
 #2. Install Python
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
-
 $pythonUrl = "https://www.python.org/ftp/python/3.13.12/python-3.13.12-amd64.exe"
 $pythonInstaller = "$env:TEMP\python-installer.exe"
 Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
