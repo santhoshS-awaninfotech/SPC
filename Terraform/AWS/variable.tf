@@ -20,7 +20,6 @@ variable "instance_type" {
 
 variable "subnet_cidrs" {
   type    = list(string)
-  default = []
 }
 
 variable "vpc_cidr" {
