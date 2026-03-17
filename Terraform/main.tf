@@ -37,6 +37,8 @@ module "aws_resources" {
   source         = "./AWS"
   count          = var.cloud == "AWS" ? 1 : 0
   cloud          = var.cloud
+  subnet_cidrs   = var.subnet_cidrs
+  resource_count       = var.resource_count
   pgsql_password = var.pgsql_password
   admin_password = var.admin_password
   userA_password = var.userA_password

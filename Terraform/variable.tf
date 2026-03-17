@@ -1,4 +1,3 @@
-
 variable "cloud" {
   description = "Target cloud provider"
   type        = string
@@ -7,7 +6,7 @@ variable "cloud" {
 #AWS
 variable "region" {
  type    = string
- default = "ap-south-1"
+ default = ""
 }
 variable "availability_zone" {
  type    = string
@@ -16,6 +15,20 @@ variable "availability_zone" {
 variable "instance_type" {
  type    = string
  default = "t3.micro"
+}
+
+variable "subnet_cidrs" {
+  type    = list(string)
+}
+
+variable "vpc_cidr" {
+  type    = string
+  default = ""
+}
+
+variable "resource_count" {
+ type    = number
+ default = 1
 }
 
 #Azure
