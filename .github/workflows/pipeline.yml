@@ -101,7 +101,7 @@ jobs:
         run:  terraform apply -auto-approve tfplan.binary
 
   terraform-destroy:
-      needs: terraform-apply
+    needs: terraform-apply
     if: ${{ github.event.inputs.action == 'Destroy' }}
     environment: critical
     runs-on: ubuntu-latest
