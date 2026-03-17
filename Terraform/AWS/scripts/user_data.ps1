@@ -1,6 +1,11 @@
+<powershell>
+$configPath = "C:\ProgramData\Amazon\EC2-Windows\Launch\Config\LaunchConfig.json"
+$config = Get-Content $configPath | ConvertFrom-Json
+$config.adminPasswordType = "Specified"
+$config.adminPassword = "${ADMIN_PASSWORD}"
+$config | ConvertTo-Json | Set-Content $configPath
 
-#0 
-net user Administrator "${ADMIN_PASSWORD}"
+#0 net user Administrator "${ADMIN_PASSWORD}"
 
 #1. Create users
 if (-not (Get-LocalUser -Name "userA" -ErrorAction SilentlyContinue)) {
@@ -22,12 +27,12 @@ write-output "Python completed"
 }
 
 #3 Install PostgreSQL
-if (-not (Get-Service -Name "postgresql-x64-16" -ErrorAction SilentlyContinue)) {
+if (-not (Get-Service -Name "postgresql-x64-18" -ErrorAction SilentlyContinue)) {
 $pgUrl = "https://get.enterprisedb.com/postgresql/postgresql-18.3-2-windows-x64.exe"
 $pgInstaller = "$env:TEMP\postgresql-installer.exe"
 Invoke-WebRequest -Uri $pgUrl -OutFile $pgInstaller
 
-Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\16"" --datadir ""C:\Program Files\PostgreSQL\16\data"" --superpassword ${PGSQLPASSWORD}" -Wait
+Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\18"" --datadir ""C:\Program Files\PostgreSQL\18\data"" --superpassword ${PGSQLPASSWORD}" -Wait
 write-output "PostgreSQL completed"
 } 
 
@@ -46,3 +51,4 @@ Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
 
 Start-Process -FilePath $s3Installer -ArgumentList "/VERYSILENT /NORESTART" -Wait
 write-output "S3 Browser completed"
+</powershell>
