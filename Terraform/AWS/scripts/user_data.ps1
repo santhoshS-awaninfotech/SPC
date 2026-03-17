@@ -1,10 +1,10 @@
 <powershell>
 $ErrorActionPreference = "SilentlyContinue"
-$configPath = "C:\ProgramData\Amazon\EC2-Windows\Launch\Config\LaunchConfig.json"
-$config = Get-Content $configPath | ConvertFrom-Json
-$config.adminPasswordType = "Specified"
-$config.adminPassword = "${ADMIN_PASSWORD}"
-$config | ConvertTo-Json | Set-Content $configPath
+# $configPath = "C:\ProgramData\Amazon\EC2-Windows\Launch\Config\LaunchConfig.json"
+# $config = Get-Content $configPath | ConvertFrom-Json
+# $config.adminPasswordType = "Specified"
+# $config.adminPassword = "${ADMIN_PASSWORD}"
+# $config | ConvertTo-Json | Set-Content $configPath
 
 #1. Create users
 # Create the local user
