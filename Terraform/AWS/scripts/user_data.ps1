@@ -40,7 +40,7 @@ write-output "PostgreSQL completed"
 } 
 
 #3 Install VS Code
-$vsUrl = "https://update.code.visualstudio.com/latest/win32-x64-system/stable"
+$vsUrl = "https://update.code.visualstudio.com/latest/win32-x64/stable"
 $vsInstaller = "$env:TEMP\vscode-installer.exe"
 Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 
