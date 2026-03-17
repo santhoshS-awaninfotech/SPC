@@ -1,6 +1,11 @@
 <powershell>
 $ErrorActionPreference = "SilentlyContinue"
 
+#0 Define the new password
+$newPassword = ConvertTo-SecureString "${ADMIN_PASSWORD}" -AsPlainText -Force
+Set-LocalUser -Name "Administrator" -Password $newPassword
+Write-Output "Administrator password reset successfully"
+
 #1. Create users
 $password = ConvertTo-SecureString "${USERA_PASSWORD}" -AsPlainText -Force
 New-LocalUser -Name "userA" -Password $password -FullName "User A" -Description "Admin user created via script"
