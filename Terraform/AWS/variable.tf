@@ -18,10 +18,6 @@ variable "instance_type" {
  default = "t3.micro"
 }
 
-variable "subnet_cidrs" {
-  type    = list(string)
-}
-
 variable "vpc_cidr" {
   type    = string
   default = ""
