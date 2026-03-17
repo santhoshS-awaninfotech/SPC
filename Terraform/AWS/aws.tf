@@ -1,88 +1,4 @@
-# VPC
-resource "aws_vpc" "spcvpc" {
-  cidr_block = "10.100.0.0/22"
-  tags = merge(var.common_tags, { Name = "SPC_VPC" })
-}
 
-resource "aws_subnet" "spcsubnet" {
-  count             = var.resource_count
-  vpc_id            = aws_vpc.spcvpc.id
-  cidr_block        = var.subnet_cidrs[count.index]
-  availability_zone = var.availability_zone
-  tags = merge(var.common_tags, {
-    Name = "SPC_SUBNET${count.index + 1}"
-  })
-}
-
-# Internet Gateway
-resource "aws_internet_gateway" "spcgw" {
-  vpc_id = aws_vpc.spcvpc.id
-  tags = merge(var.common_tags, { Name = "SPC_IGW" })
-}
-
-# Route Table
-resource "aws_route_table" "spcrt" {
-  vpc_id = aws_vpc.spcvpc.id
-  tags = merge(var.common_tags, { Name = "SPC_ROUTETABLE" })
-}
-
-resource "aws_route" "internet_access" {
-  route_table_id         = aws_route_table.spcrt.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.spcgw.id
-}
-
-resource "aws_route_table_association" "assoc" {
-  count          = var.resource_count
-  subnet_id      = aws_subnet.spcsubnet[count.index].id
-  route_table_id = aws_route_table.spcrt.id
-}
-
-# Security Group
-resource "aws_security_group" "vm1_sg" {
-  vpc_id = aws_vpc.spcvpc.id
-  tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-VM1" })
-
-  ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-   ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = ["10.100.2.0/24", "0.0.0.0/0"] # Example: only allow DB traffic inside VPC
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "vm2_sg" {
-  vpc_id = aws_vpc.spcvpc.id
-  tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-VM2" })
-
-  ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
 resource "aws_eip" "spcpip" {
   count  = var.resource_count
   domain = "vpc"
@@ -103,16 +19,6 @@ resource "aws_eip_association" "pip_assoc" {
   count                = var.resource_count
   allocation_id        = aws_eip.spcpip[count.index].id
   network_interface_id = aws_network_interface.spc_nic[count.index].id
-}
-
-data "aws_ami" "windows" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["Windows_Server-2019-English-Full-Base-*"]
-  }
 }
 
 # EC2 Instance

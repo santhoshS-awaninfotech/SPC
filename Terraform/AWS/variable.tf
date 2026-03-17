@@ -27,10 +27,34 @@ variable "vpc_cidr" {
   default = ""
 }
 
-variable "resource_count" {
+variable "backsubnet_cidr" {
+  type    = string
+  default = ""
+}
+
+variable "discsubnet_cidr" {
+  type    = string
+  default = ""
+}
+
+variable "discvm_count" {
  type    = number
  default = 1
 }
+variable "backendvm_count" {
+ type    = number
+ default = 1
+}
+variable "disc_instance_type" {
+ type    = string
+ default = "t3.micro"
+}
+variable "be_instance_type" {
+ type    = string
+ default = "t3.micro"
+}
+
+
 
 #Azure
 variable "location" {

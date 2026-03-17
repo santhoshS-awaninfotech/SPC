@@ -19,6 +19,16 @@ New-LocalUser -Name "userB" -Password $password -FullName "User B" -Description 
 Add-LocalGroupMember -Group "Administrators" -Member "userB"
 write-output "userB completed"
 
+# Find the first RAW (uninitialized) disk
+$disk = Get-Disk | Where-Object PartitionStyle -Eq 'RAW' | Select-Object -First 1
+
+if ($disk) {
+    # Initialize the disk
+    Initialize-Disk -Number $disk.Number -PartitionStyle MBR -PassThru |
+        New-Partition -UseMaximumSize -DriveLetter 'F' |
+        Format-Volume -FileSystem NTFS -NewFileSystemLabel 'DataDisk' -Confirm:$false
+}
+
 #2. Install Python
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
 $pythonUrl = "https://www.python.org/ftp/python/3.13.12/python-3.13.12-amd64.exe"
@@ -34,8 +44,9 @@ if (-not (Get-Service -Name "postgresql-x64-18" -ErrorAction SilentlyContinue)) 
 $pgUrl = "https://get.enterprisedb.com/postgresql/postgresql-18.3-2-windows-x64.exe"
 $pgInstaller = "$env:TEMP\postgresql-installer.exe"
 Invoke-WebRequest -Uri $pgUrl -OutFile $pgInstaller
+New-Item -ItemType Directory -Path "F:\Postgres\data" -Force
 
-Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\18"" --datadir ""C:\Program Files\PostgreSQL\18\data"" --superpassword ${PGSQLPASSWORD}" -Wait
+Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\18"" --datadir ""F:\Postgres\data"" --superpassword ${PGSQLPASSWORD}" -Wait
 write-output "PostgreSQL completed"
 } 
 

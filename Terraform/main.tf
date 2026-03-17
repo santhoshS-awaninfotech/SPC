@@ -34,16 +34,21 @@ provider "aws" {
 }
 
 module "aws_resources" {
-  source         = "./AWS"
-  count          = var.cloud == "AWS" ? 1 : 0
-  cloud          = var.cloud
-  subnet_cidrs   = var.subnet_cidrs
-  resource_count       = var.resource_count
-  pgsql_password = var.pgsql_password
-  admin_password = var.admin_password
-  userA_password = var.userA_password
-  userB_password = var.userB_password
-
+  source             = "./AWS"
+  count              = var.cloud == "AWS" ? 1 : 0
+  cloud              = var.cloud
+  vpc_cidr           = var.vpc_cidr
+  backsubnet_cidr    = var.backsubnet_cidr
+  discsubnet_cidr    = var.discsubnet_cidr
+  region             = var.region
+  discvm_count       = var.discvm_count
+  backendvm_count    = var.backendvm_count
+  disc_instance_type = var.disc_instance_type
+  be_instance_type   = var.be_instance_type
+  pgsql_password     = var.pgsql_password
+  admin_password     = var.admin_password
+  userA_password     = var.userA_password
+  userB_password     = var.userB_password
 }
 
 module "azure_resources" {
