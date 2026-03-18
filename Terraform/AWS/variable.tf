@@ -83,4 +83,3 @@ variable "pgsql_password" {
   type      = string
   sensitive = true
 }
-

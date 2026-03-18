@@ -7,3 +7,13 @@ discvm_count        = 2
 backendvm_count     = 1
 disc_instance_type  = "t3.micro"
 be_instance_type    = "t3.micro"
+regions = {
+  "us-east-1" = {
+    backendvm_count = 2
+    discvm_count    = 1
+  }
+  "us-west-2" = {
+    backendvm_count = 3
+    discvm_count    = 2
+  }
+}

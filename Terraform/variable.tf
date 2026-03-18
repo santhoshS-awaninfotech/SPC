@@ -5,10 +5,10 @@ variable "cloud" {
 }
 
 #AWS
-variable "region" {
- type    = string
- default = ""
-}
+# variable "region" {
+#  type    = string
+#  default = ""
+# }
 variable "availability_zone" {
  type    = string
  default = "ap-south-1a"
@@ -50,7 +50,12 @@ variable "be_instance_type" {
  default = "t3.micro"
 }
 
-
+variable "regions" {
+  type = map(object({
+    backendvm_count = number
+    discvm_count    = number
+  }))
+}
 
 #Azure
 variable "location" {
