@@ -14,8 +14,8 @@ resource "aws_network_interface" "back_nic" {
 
 resource "aws_eip_association" "back_pip_assoc" {
   count                = var.backendvm_count
-  allocation_id        = aws_eip.back_pip.id
-  network_interface_id = aws_network_interface.back_nic.id
+  allocation_id        = aws_eip.back_pip[count.index].id
+  network_interface_id = aws_network_interface.back_nic[count.index].id
 }
 
 # EC2 Instance
