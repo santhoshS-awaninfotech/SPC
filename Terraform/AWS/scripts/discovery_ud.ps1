@@ -37,4 +37,5 @@ Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
 Write-Output "VS Code installation completed"
 
+Rename-Computer -NewName "DiscoveryVM" -Force -Restart
 </powershell>

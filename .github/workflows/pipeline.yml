@@ -18,7 +18,7 @@ on:
           - Create
           - Destroy
       check:
-        description: "select, if you will review the plan before Apply [recommended]"
+        description: "Select to Apply, if you will review the plan [recommended]"
         default: false
         type : boolean
 

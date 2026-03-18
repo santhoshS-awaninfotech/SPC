@@ -65,4 +65,6 @@ Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
 
 Start-Process -FilePath $s3Installer -ArgumentList "/VERYSILENT /NORESTART" -Wait
 write-output "S3 Browser completed"
+
+Rename-Computer -NewName "BackendVM" -Force -Restart
 </powershell>
