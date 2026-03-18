@@ -5,10 +5,10 @@ variable "cloud" {
 }
 
 #AWS
-# variable "region" {
-#  type    = string
-#  default = ""
-# }
+variable "region" {
+ type    = string
+ default = ""
+}
 variable "availability_zone" {
  type    = string
  default = "ap-south-1a"
