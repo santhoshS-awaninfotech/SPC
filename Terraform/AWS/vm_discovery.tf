@@ -27,7 +27,7 @@ resource "aws_instance" "DiscVM" {
   tags          = merge(var.common_tags, { Name = "Discovery-vm-${count.index + 1}" })
 
   network_interface {
-    network_interface_id = aws_network_interface.discvm_nic.id
+    network_interface_id = aws_network_interface.discvm_nic[count.index].id
     device_index         = 0 
   }
   root_block_device {
