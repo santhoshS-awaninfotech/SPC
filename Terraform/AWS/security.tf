@@ -1,9 +1,11 @@
 # Security Group
 resource "aws_security_group" "backend_sg" {
+  name   = "SG_Backend"
   vpc_id = aws_vpc.spcvpc.id
   tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-BE" })
 
   ingress {
+    description = "Allow RDP from anywhere"
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
@@ -11,6 +13,7 @@ resource "aws_security_group" "backend_sg" {
   }
 
    ingress {
+    description = "Allow Postgres from VPC and public"
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
@@ -18,6 +21,7 @@ resource "aws_security_group" "backend_sg" {
   }
 
   egress {
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -26,6 +30,7 @@ resource "aws_security_group" "backend_sg" {
 }
 
 resource "aws_security_group" "discovery_sg" {
+  name   = "SG_Discovery"
   vpc_id = aws_vpc.spcvpc.id
   tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-DISC" })
 
