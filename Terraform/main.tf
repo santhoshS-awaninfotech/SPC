@@ -30,14 +30,18 @@ provider "azurerm" {
   features {}
 }
 provider "aws" {
-  region = var.region
+  for_each = var.regions
+  alias    = each.key
+  region   = each.key
 }
 
 module "aws_resources" {
   source             = "./AWS"
   #count              = var.cloud == "AWS" ? 1 : 0
   for_each = var.cloud == "AWS" ? var.regions : {}
-
+  providers = {
+    aws = aws[each.key]
+  }
   cloud              = var.cloud
   vpc_cidr           = var.vpc_cidr
   backsubnet_cidr    = var.backsubnet_cidr

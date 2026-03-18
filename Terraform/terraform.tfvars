@@ -13,7 +13,7 @@ regions = {
     discvm_count    = 1
   }
   "us-west-2" = {
-    backendvm_count = 3
+    backendvm_count = 0
     discvm_count    = 2
   }
 }
