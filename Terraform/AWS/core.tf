@@ -39,7 +39,7 @@ resource "aws_route" "internet_access" {
 }
 
 resource "aws_route_table_association" "assoc_disc" {
-  count          = var.resource_count
+  #count          = var.resource_count
   subnet_id      = aws_subnet.discsubnet.id
   route_table_id = aws_route_table.spcrt.id
 }
