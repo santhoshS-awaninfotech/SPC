@@ -27,7 +27,7 @@
 module "aws_resources_for_region1" {
   count     = var.cloud == "AWS" ? 1 : 0
   source    = "./AWS"
-  providers = { aws = aws.region1 }
+  providers = { aws = aws.reg1 }
   cloud              = var.cloud
   region             = var.region1
   vpc_cidr           = var.vpc_cidr
@@ -44,7 +44,7 @@ module "aws_resources_for_region1" {
 module "aws_resources_for_region2" {
   count     = var.cloud == "AWS" ? 1 : 0
   source    = "./AWS"
-  providers = { aws = aws.region2 }
+  providers = { aws = aws.reg2 }
   cloud              = var.cloud
   region             = var.region2
   vpc_cidr           = var.vpc_cidr

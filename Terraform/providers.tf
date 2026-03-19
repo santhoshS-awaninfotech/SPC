@@ -30,11 +30,11 @@ provider "azurerm" {
   features {}
 }
 provider "aws" {
-  alias  = "region1"
+  alias  = "reg1"
   region = var.region1
 }
 
 provider "aws" {
-  alias  = "region2"
+  alias  = "reg2"
   region = var.region2
 }
