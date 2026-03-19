@@ -5,15 +5,40 @@ variable "cloud" {
 }
 
 #AWS
-variable "region1" {
- type    = string
- default = ""
+# variable "region1" {
+#  type    = string
+#  default = ""
+# }
+
+# variable "region2" {
+#  type    = string
+#  default = ""
+# }
+
+variable "region1" { type = string }
+variable "region2" { type = string }
+
+variable "backendvm_count_region1" { type = number }
+variable "discvm_count_region1"    { type = number }
+
+variable "backendvm_count_region2" { type = number }
+variable "discvm_count_region2"    { type = number }
+
+locals {
+  region_settings = {
+    (var.region1) = {
+      backendvm_count = var.backendvm_count_region1
+      discvm_count    = var.discvm_count_region1
+    }
+    (var.region2) = {
+      backendvm_count = var.backendvm_count_region2
+      discvm_count    = var.discvm_count_region2
+    }
+  }
 }
 
-variable "region2" {
- type    = string
- default = ""
-}
+
+
 variable "availability_zone" {
  type    = string
  default = "ap-south-1a"
