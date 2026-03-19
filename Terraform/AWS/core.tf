@@ -7,7 +7,7 @@ resource "aws_vpc" "spcvpc" {
 resource "aws_subnet" "discsubnet" {
   vpc_id            = aws_vpc.spcvpc.id
   cidr_block        = var.discsubnet_cidr
-  availability_zone = var.availability_zone
+  availability_zone = data.aws_availability_zones.available.names[0]
   tags = merge(var.common_tags, {Name = "Discovery_Subnet"
   })
 }
@@ -15,7 +15,7 @@ resource "aws_subnet" "discsubnet" {
 resource "aws_subnet" "backsubnet" {
   vpc_id            = aws_vpc.spcvpc.id
   cidr_block        = var.backsubnet_cidr
-  availability_zone = var.availability_zone
+  availability_zone = data.aws_availability_zones.available.names[0]
   tags = merge(var.common_tags, {Name = "Backend_Subnet"
   })
 }
