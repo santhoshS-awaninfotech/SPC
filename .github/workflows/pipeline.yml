@@ -17,6 +17,7 @@ on:
         options:
           - Create
           - Destroy
+          - IP-Recycle
       check:
         description: "Select to Apply, if you will review the plan [recommended]"
         default: false
