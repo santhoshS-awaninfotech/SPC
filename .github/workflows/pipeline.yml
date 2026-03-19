@@ -17,9 +17,9 @@ on:
         options:
           - Create
           - Destroy
-          - IP-Recycle
+          - PIP_Recycle
       check:
-        description: "Select to Apply, if you will review the plan [recommended]"
+        description: "confirm 'Apply' after 'Plan' review [recommended]"
         default: false
         type : boolean
 
