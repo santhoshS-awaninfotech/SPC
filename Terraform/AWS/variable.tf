@@ -13,10 +13,6 @@ variable "region" {
 #  type    = string
 #  default = ""
 # }
-variable "keypair_name" {
- type    = string
- default = "sant-key-pair"
-}
 
 data "aws_availability_zones" "available" {
   state = "available"

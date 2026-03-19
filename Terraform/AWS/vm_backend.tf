@@ -23,7 +23,7 @@ resource "aws_instance" "backVM" {
   count         = var.backendvm_count
   ami           = data.aws_ami.windows.id
   instance_type = var.be_instance_type
-  key_name      = var.keypair_name
+  key_name      = aws_key_pair.akp.key_name
   tags          = merge(var.common_tags, { Name = "Backend-vm-${count.index + 1}" })
 
   network_interface {
