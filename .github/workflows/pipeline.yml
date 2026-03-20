@@ -109,7 +109,7 @@ jobs:
         if: ${{ github.event.inputs.target_ip != '' }}
         id: find_resource
         run: |
-          target_ip="${{ github.event.inputs.target_ip }}"
+          target_ip=$(echo "${{ github.event.inputs.target_ip }}" | xargs)
           resource=$(terraform output -json | jq -r --arg ip "$target_ip" '
             [
               .backend_ip_map_region1.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name,
