@@ -48,17 +48,16 @@ module "azure_resources" {
 }
 
 output "backend_ip_map_region1" {
-  value = module.aws_resources_for_region1.backend_ip_map
+  value = module.aws_resources_for_region1[0].backend_ip_map
 }
 
 output "discovery_ip_map_region1" {
-  value = module.aws_resources_for_region1.discovery_ip_map
+  value = module.aws_resources_for_region1[0].discovery_ip_map
 }
-
 output "backend_ip_map_region2" {
-  value = module.aws_resources_for_region2.backend_ip_map
+  value = module.aws_resources_for_region2[0].backend_ip_map
 }
 
 output "discovery_ip_map_region2" {
-  value = module.aws_resources_for_region2.discovery_ip_map
+  value = module.aws_resources_for_region2[0].discovery_ip_map
 }
