@@ -24,8 +24,8 @@ on:
         type : boolean
 
       target_ip:
-        description: "Public IP to recycle"
-        required: true
+        description: "Enter PublicIP to-be recycled, if any"
+        required: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
