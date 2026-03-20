@@ -119,7 +119,7 @@ jobs:
             ]
             | map(select(. != null))
             | .[0]
-          ' tf_outputs.json)
+          ')
 
           echo "resource=$resource"
           echo "resource=$resource" >> $GITHUB_OUTPUT
