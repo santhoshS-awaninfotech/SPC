@@ -8,6 +8,6 @@ be_instance_type    = "t3.micro"
 region1 = "ap-south-1"
 region2 = "us-east-1"
 backendvm_count_region1 = 1
-discvm_count_region1    = 2
+discvm_count_region1    = 0
 backendvm_count_region2 = 1
 discvm_count_region2    = 1
