@@ -46,3 +46,19 @@ module "azure_resources" {
   userA_password = var.userA_password
   userB_password = var.userB_password
 }
+
+output "backend_ip_map_region1" {
+  value = module.aws_resources_for_region1.backend_ip_map
+}
+
+output "discovery_ip_map_region1" {
+  value = module.aws_resources_for_region1.discovery_ip_map
+}
+
+output "backend_ip_map_region2" {
+  value = module.aws_resources_for_region2.backend_ip_map
+}
+
+output "discovery_ip_map_region2" {
+  value = module.aws_resources_for_region2.discovery_ip_map
+}
