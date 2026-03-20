@@ -112,11 +112,17 @@ jobs:
           target_ip="${{ github.event.inputs.target_ip }}"
           terraform output -json > tf_outputs.json
           resource=$(jq -r --arg ip "$target_ip" '
-          (.backend_ip_map_region1.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name),
-          (.discovery_ip_map_region1.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name),
-          (.backend_ip_map_region2.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name),
-          (.discovery_ip_map_region2.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name)
-          | select(. != null)
+            if .backend_ip_map_region1.value | to_entries[] | any(.value.ip == $ip) then
+              "module.aws_resources_for_region1.aws_eip.back_pip[0]"
+            elif .backend_ip_map_region2.value | to_entries[] | any(.value.ip == $ip) then
+              "module.aws_resources_for_region2.aws_eip.back_pip[0]"
+            elif .discovery_ip_map_region1.value | to_entries[] | any(.value.ip == $ip) then
+              "module.aws_resources_for_region1.aws_eip.discovery_pip[0]"
+            elif .discovery_ip_map_region2.value | to_entries[] | any(.value.ip == $ip) then
+              "module.aws_resources_for_region2.aws_eip.discovery_pip[0]"
+            else
+              empty
+            end
           ' tf_outputs.json)
           echo "resource=$resource" >> $GITHUB_OUTPUT
 
