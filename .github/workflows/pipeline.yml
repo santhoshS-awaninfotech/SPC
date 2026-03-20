@@ -94,9 +94,7 @@ jobs:
         id: find_resource
         run: |
           target_ip="${{ github.event.inputs.target_ip }}"
-          # Dump outputs to JSON
           terraform output -json > tf_outputs.json
-          # Search backend_ip_map and discovery_ip_map
           resource=$(jq -r --arg ip "$target_ip" '
             .backend_ip_map.value[] | select(.ip == $ip) | .resource_name
             // .discovery_ip_map.value[] | select(.ip == $ip) | .resource_name
