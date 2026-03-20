@@ -120,7 +120,7 @@ jobs:
       - name: Init Terraform
         run: terraform init
 
-      - name: Init Terraform
+      - name: show TF output
         run: terraform output -json | jq .
 
 
@@ -141,7 +141,7 @@ jobs:
       - name: Apply changes
         run: terraform apply -auto-approve
 
-        
+
   terraform-destroy:
     needs: terraform-apply
     if: ${{ always() && github.event.inputs.action == 'Destroy' }}
