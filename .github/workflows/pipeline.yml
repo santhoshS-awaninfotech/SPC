@@ -77,7 +77,8 @@ jobs:
           path: Terraform/tfplan.binary
 
   PIP-Recycle:
-    if: ${{ github.event.inputs.action== 'PIP_Recycle' }}
+    needs: terraform-apply
+    if: ${{ always() && github.event.inputs.action == 'PIP_Recycle' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
