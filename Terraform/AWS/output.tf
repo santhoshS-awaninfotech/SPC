@@ -13,7 +13,7 @@ output "backend_ip_map" {
       ip            = eip.public_ip
       region        = var.region
       #instance_name = aws_instance.backVM[idx].tags["Name"]
-      resource_name = "module.${path.module}.aws_eip.back_pip[${idx}]"
+      resource_name = "module.${var.module_name}[0].aws_eip.back_pip[${idx}]"
     }
   }
 }
@@ -25,7 +25,8 @@ output "discovery_ip_map" {
       ip            = eip.public_ip
       region        = var.region
       #instance_name = aws_instance.discVM[idx].tags["Name"]
-      resource_name = "module.${path.module}.aws_eip.disc_pip[${idx}]"
+      #resource_name = "module.${path.module}.aws_eip.disc_pip[${idx}]"
+      resource_name = "module.${var.module_name}[0].aws_eip.disc_pip[${idx}]"
     }
   }
 }

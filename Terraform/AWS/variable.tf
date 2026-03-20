@@ -13,6 +13,9 @@ variable "region" {
 #  type    = string
 #  default = ""
 # }
+variable "module_name" {
+  type = string
+}
 
 data "aws_availability_zones" "available" {
   state = "available"
