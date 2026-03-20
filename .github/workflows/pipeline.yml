@@ -108,7 +108,7 @@ jobs:
 
   PIP-Recycle:
     needs: terraform-apply
-    if: ${{ always() && github.event.inputs.action == 'PIP_Recycle' && github.event.inputs.target_ip  != '' }}
+    if: ${{ github.event.inputs.target_ip  != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
