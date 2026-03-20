@@ -76,9 +76,39 @@ jobs:
           name: tfplan
           path: Terraform/tfplan.binary
 
+  terraform-apply:
+    needs: terraform-plan
+    if: ${{ github.event.inputs.action== 'Create' && github.event.inputs.check == 'true' }}
+    environment: critical
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Terraform
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Download plan file
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: Terraform
+
+      - name: Terraform Apply
+        run:  terraform apply -auto-approve tfplan.binary
+
+
   PIP-Recycle:
     needs: terraform-apply
-    if: ${{ always() && github.event.inputs.action == 'PIP_Recycle' }}
+    if: ${{ always() && github.event.inputs.action == 'PIP_Recycle' && github.event.inputs.target_ip  != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -111,37 +141,7 @@ jobs:
       - name: Apply changes
         run: terraform apply -auto-approve
 
-  terraform-apply:
-    needs: terraform-plan
-    if: ${{ github.event.inputs.action== 'Create' && github.event.inputs.check == 'true' }}
-    environment: critical
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Terraform
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.7.0
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Download plan file
-        uses: actions/download-artifact@v4
-        with:
-          name: tfplan
-          path: Terraform
-
-      - name: Terraform Apply
-        run:  terraform apply -auto-approve tfplan.binary
-
-
-
+        
   terraform-destroy:
     needs: terraform-apply
     if: ${{ always() && github.event.inputs.action == 'Destroy' }}
