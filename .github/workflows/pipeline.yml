@@ -130,8 +130,8 @@ jobs:
           target_ip="${{ github.event.inputs.target_ip }}"
           terraform output -json > tf_outputs.json
           resource=$(jq -r --arg ip "$target_ip" '
-            .backend_ip_map.value[] | select(.ip == $ip) | .resource_name
-            // .discovery_ip_map.value[] | select(.ip == $ip) | .resource_name
+          .backend_ip_map_region1.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name
+          // .discovery_ip_map_region1.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name
           ' tf_outputs.json)
           echo "resource=$resource" >> $GITHUB_OUTPUT
 
