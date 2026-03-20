@@ -67,6 +67,32 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Show TF output
+        run: terraform output -json | jq .
+
+      - name: Find resource by IP
+        if: ${{ github.event.inputs.target_ip != '' }}
+        id: find_resource
+        run: |
+          target_ip=$(echo "${{ github.event.inputs.target_ip }}" | xargs)
+           resource=$(terraform output -json | jq -r --arg ip "$target_ip" '
+            [
+              (.backend_ip_map_region1.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name),
+              (.backend_ip_map_region2.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name),
+              (.discovery_ip_map_region1.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name),
+              (.discovery_ip_map_region2.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name)
+            ]
+            | map(select(. != null))
+            | .[0]
+          ')
+          echo "resource=$resource"
+          echo "resource=$resource" >> $GITHUB_OUTPUT
+
+      - name: Taint resource
+        if: ${{ github.event.inputs.target_ip != '' }}
+        run: terraform taint ${{ steps.find_resource.outputs.resource }}
+
+
       - name: Terraform Plan
         run: terraform plan -out=tfplan.binary
 
@@ -102,69 +128,8 @@ jobs:
           name: tfplan
           path: Terraform
 
-      - name: show TF output
-        run: terraform output -json | jq .
-
-      - name: Find resource by IP
-        if: ${{ github.event.inputs.target_ip != '' }}
-        id: find_resource
-        run: |
-          target_ip=$(echo "${{ github.event.inputs.target_ip }}" | xargs)
-           resource=$(terraform output -json | jq -r --arg ip "$target_ip" '
-            [
-              (.backend_ip_map_region1.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name),
-              (.backend_ip_map_region2.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name),
-              (.discovery_ip_map_region1.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name),
-              (.discovery_ip_map_region2.value | to_entries[]? | select(.value.ip == $ip) | .value.resource_name)
-            ]
-            | map(select(. != null))
-            | .[0]
-          ')
-          echo "resource=$resource"
-          echo "resource=$resource" >> $GITHUB_OUTPUT
-
-
-      - name: Taint resource
-        if: ${{ github.event.inputs.target_ip != '' }}
-        run: terraform taint ${{ steps.find_resource.outputs.resource }}
-
       - name: Terraform Apply
         run:  terraform apply -auto-approve tfplan.binary
-
-
-  # PIP-Recycle:
-  #   needs: terraform-apply
-  #   if: ${{ github.event.inputs.target_ip  != '' }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repo
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Terraform
-  #       uses: hashicorp/setup-terraform@v3
-
-  #     - name: Init Terraform
-  #       run: terraform init
-
-  #     - name: show TF output
-  #       run: terraform output -json | jq .
-
-  #     - name: Find resource by IP
-  #       id: find_resource
-  #       run: |
-  #         target_ip="${{ github.event.inputs.target_ip }}"
-  #         terraform output -json > tf_outputs.json
-  #         resource=$(jq -r --arg ip "$target_ip" '
-  #         .backend_ip_map_region1.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name
-  #         // .discovery_ip_map_region1.value | to_entries[] | select(.value.ip == $ip) | .value.resource_name
-  #         ' tf_outputs.json)
-  #         echo "resource=$resource" >> $GITHUB_OUTPUT
-
-  #     - name: Taint resource
-  #       run: terraform taint ${{ steps.find_resource.outputs.resource }}
-
-  #     - name: Apply changes
-  #       run: terraform apply -auto-approve
 
 
   terraform-destroy:
