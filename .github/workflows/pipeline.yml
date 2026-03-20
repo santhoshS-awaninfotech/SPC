@@ -90,6 +90,10 @@ jobs:
       - name: Init Terraform
         run: terraform init
 
+      - name: Init Terraform
+        run: terraform output -json | jq .
+
+
       - name: Find resource by IP
         id: find_resource
         run: |
