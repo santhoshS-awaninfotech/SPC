@@ -37,5 +37,5 @@ Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
 Write-Output "VS Code installation completed"
 
-Rename-Computer -NewName "${var.reg_code}SPC2RUNR${upper(substr(aws_instance.DiscVM[count.index].availability_zone, -2, 2))}${count.index + 1}" -Force -Restart
+Rename-Computer -NewName "${REGCODE}SPC2RUNR${upper(substr(aws_instance.DiscVM[count.index].availability_zone, -2, 2))}${count.index + 1}" -Force -Restart
 </powershell>

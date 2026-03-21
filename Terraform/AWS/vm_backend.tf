@@ -47,5 +47,6 @@ resource "aws_instance" "backVM" {
   USERA_PASSWORD = var.userA_password
   USERB_PASSWORD = var.userB_password
   PGSQLPASSWORD  = var.pgsql_password
+  REGCODE        = var.reg_code
 })
   }

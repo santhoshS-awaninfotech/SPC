@@ -40,5 +40,6 @@ resource "aws_instance" "DiscVM" {
   ADMIN_PASSWORD = var.admin_password
   USERA_PASSWORD = var.userA_password
   USERB_PASSWORD = var.userB_password
+  REGCODE        = var.reg_code
 })
   }
