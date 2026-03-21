@@ -1,7 +1,7 @@
 resource "aws_eip" "back_pip" {
   count  = var.backendvm_count
   domain = "vpc"
-  tags = merge(var.common_tags, { Name = "PIP_backendVM${count.index + 1}" })
+  tags   = merge(var.common_tags, { Name = "PIP-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }
 
 # Create a Network Interface
@@ -9,7 +9,7 @@ resource "aws_network_interface" "back_nic" {
   count           = var.backendvm_count
   subnet_id       = aws_subnet.backsubnet.id
   security_groups = [aws_security_group.backend_sg.id]
-  tags = merge(var.common_tags, { Name = "Backend_NIC${count.index + 1}" })
+  tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }
 
 resource "aws_eip_association" "back_pip_assoc" {
@@ -24,7 +24,7 @@ resource "aws_instance" "backVM" {
   ami           = data.aws_ami.windows.id
   instance_type = var.be_instance_type
   key_name      = aws_key_pair.akp.key_name
-  tags          = merge(var.common_tags, { Name = "${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
+  tags          = merge(var.common_tags, { Name = "VM-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 
   network_interface {
     network_interface_id = aws_network_interface.back_nic[count.index].id

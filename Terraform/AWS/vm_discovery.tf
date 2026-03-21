@@ -1,7 +1,7 @@
 resource "aws_eip" "disc_pip" {
   count  = var.discvm_count
   domain = "vpc"
-  tags = merge(var.common_tags, { Name = "PIP_discoveryVM${count.index + 1}" })
+  tags   = merge(var.common_tags, { Name = "PIP-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }
 
 # Create a Network Interface
@@ -9,7 +9,7 @@ resource "aws_network_interface" "discvm_nic" {
   count           = var.discvm_count
   subnet_id       = aws_subnet.discsubnet.id
   security_groups = [aws_security_group.discovery_sg.id]
-  tags = merge(var.common_tags, { Name = "DISC_NIC${count.index + 1}" })
+  tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }
 
 resource "aws_eip_association" "disc_pip_assoc" {
@@ -24,7 +24,7 @@ resource "aws_instance" "DiscVM" {
   ami           = data.aws_ami.windows.id
   instance_type = var.disc_instance_type
   key_name      = aws_key_pair.akp.key_name
-    tags          = merge(var.common_tags, { Name = "${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
+  tags          = merge(var.common_tags, { Name = "VM-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 
   network_interface {
     network_interface_id = aws_network_interface.discvm_nic[count.index].id

@@ -10,35 +10,33 @@ terraform {
 # VPC
 resource "aws_vpc" "spcvpc" {
   cidr_block = var.vpc_cidr
-  tags = merge(var.common_tags, { Name = "SPC_VPC" })
+  tags       = merge(var.common_tags, { Name = "VPC-${var.reg_code}-SPC"})
 }
 
 resource "aws_subnet" "discsubnet" {
   vpc_id            = aws_vpc.spcvpc.id
   cidr_block        = var.discsubnet_cidr
   availability_zone = data.aws_availability_zones.available.names[0]
-  tags = merge(var.common_tags, {Name = "Discovery_Subnet"
-  })
+  tags   = merge(var.common_tags, { Name = "SUBNET-${var.reg_code}-SPC-STG-RUNR"})
 }
 
 resource "aws_subnet" "backsubnet" {
   vpc_id            = aws_vpc.spcvpc.id
   cidr_block        = var.backsubnet_cidr
   availability_zone = data.aws_availability_zones.available.names[0]
-  tags = merge(var.common_tags, {Name = "Backend_Subnet"
-  })
+  tags   = merge(var.common_tags, { Name = "SUBNET-${var.reg_code}-SPC-STG-UIDB"})
 }
 
 # Internet Gateway
 resource "aws_internet_gateway" "spcgw" {
   vpc_id = aws_vpc.spcvpc.id
-  tags = merge(var.common_tags, { Name = "SPC_IGW" })
+  tags   = merge(var.common_tags, { Name = "IGW-${var.reg_code}-SPC-STG"})
 }
 
 # Route Table
 resource "aws_route_table" "spcrt" {
   vpc_id = aws_vpc.spcvpc.id
-  tags = merge(var.common_tags, { Name = "SPC_ROUTETABLE" })
+  tags   = merge(var.common_tags, { Name = "RT-${var.reg_code}-SPC-STG"})
 }
 
 resource "aws_route" "internet_access" {
