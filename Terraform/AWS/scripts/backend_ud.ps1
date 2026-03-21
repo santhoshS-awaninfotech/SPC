@@ -66,5 +66,5 @@ Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
 Start-Process -FilePath $s3Installer -ArgumentList "/VERYSILENT /NORESTART" -Wait
 write-output "S3 Browser completed"
 
-Rename-Computer -NewName "${var.region_code}SPC2UIDB${upper(substr(aws_instance.disc[count.index].availability_zone, -2, 2))}${count.index + 1}" -Force -Restart
+Rename-Computer -NewName "${var.reg_code}SPC2UIDB${upper(substr(aws_instance.disc[count.index].availability_zone, -2, 2))}${count.index + 1}" -Force -Restart
 </powershell>

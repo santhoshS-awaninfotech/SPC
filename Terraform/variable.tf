@@ -8,8 +8,10 @@ variable "cloud" {
 
 variable "region1" { type = string }
 variable "region2" { type = string }
-variable "region1_code" { type = string }
-variable "region2_code" { type = string }
+
+
+variable "reg1_code" { type = string }
+variable "reg2_code" { type = string }
 
 variable "backendvm_count_region1" { type = number }
 variable "discvm_count_region1"    { type = number }
@@ -22,10 +24,12 @@ locals {
     (var.region1) = {
       backendvm_count = var.backendvm_count_region1
       discvm_count    = var.discvm_count_region1
+      reg_code        = var.reg1_code
     }
     (var.region2) = {
       backendvm_count = var.backendvm_count_region2
       discvm_count    = var.discvm_count_region2
+      reg_code        = var.reg2code
     }
   }
 }

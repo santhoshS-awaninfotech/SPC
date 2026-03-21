@@ -24,7 +24,7 @@ resource "aws_instance" "backVM" {
   ami           = data.aws_ami.windows.id
   instance_type = var.be_instance_type
   key_name      = aws_key_pair.akp.key_name
-  tags          = merge(var.common_tags, { Name = "${var.region_code}-SPC-STG-UIDB-${upper(substr(aws_instance.disc[count.index].availability_zone, -2, 2))}-${count.index + 1}" })
+  tags          = merge(var.common_tags, { Name = "${var.reg_code}-SPC-STG-UIDB-${upper(substr(aws_instance.disc[count.index].availability_zone, -2, 2))}-${count.index + 1}" })
 
   network_interface {
     network_interface_id = aws_network_interface.back_nic[count.index].id
