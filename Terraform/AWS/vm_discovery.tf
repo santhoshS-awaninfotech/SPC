@@ -24,7 +24,7 @@ resource "aws_instance" "DiscVM" {
   ami           = data.aws_ami.windows.id
   instance_type = var.disc_instance_type
   key_name      = aws_key_pair.akp.key_name
-  tags          = merge(var.common_tags, { Name = "${var.reg_code}-SPC-STG-RUNR-${upper(substr(aws_instance.DiscVM[count.index].availability_zone, -2, 2))}-${count.index + 1}" })
+    tags          = merge(var.common_tags, { Name = "${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 
   network_interface {
     network_interface_id = aws_network_interface.discvm_nic[count.index].id
@@ -40,6 +40,6 @@ resource "aws_instance" "DiscVM" {
   ADMIN_PASSWORD = var.admin_password
   USERA_PASSWORD = var.userA_password
   USERB_PASSWORD = var.userB_password
-  HOSTNAME       = "${var.reg_code}STGSPCRNR${upper(substr(aws_instance.backVM[count.index].availability_zone, -2, 2))}${count.index + 1}"
+  HOSTNAME       = "${var.reg_code}STGSPCRNR${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}${count.index + 1}"
 })
   }

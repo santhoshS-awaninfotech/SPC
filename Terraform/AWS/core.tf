@@ -67,3 +67,7 @@ data "aws_ami" "windows" {
     values = ["Windows_Server-2019-English-Full-Base-*"]
   }
 }
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}

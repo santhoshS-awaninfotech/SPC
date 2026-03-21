@@ -15,10 +15,6 @@ variable "module_name" {
   type = string
 }
 
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
 variable "instance_type" {
  type    = string
  default = "t3.micro"
