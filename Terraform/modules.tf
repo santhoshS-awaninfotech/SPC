@@ -6,7 +6,7 @@ module "aws_resources_for_region1" {
   module_name        = "aws_resources_for_region1"
   cloud              = var.cloud
   region             = var.region1
-  reg_code           = local.region_settings[var.region1].reg_count
+  reg_code           = local.region_settings[var.region1].reg_code
   backendvm_count    = local.region_settings[var.region1].backendvm_count
   discvm_count       = local.region_settings[var.region1].discvm_count
   vpc_cidr           = var.vpc_cidr
@@ -27,7 +27,7 @@ module "aws_resources_for_region2" {
   module_name        = "aws_resources_for_region2"
   cloud              = var.cloud
   region             = var.region2
-  reg_code           = local.region_settings[var.region2].reg_count
+  reg_code           = local.region_settings[var.region2].reg_code
   backendvm_count    = local.region_settings[var.region2].backendvm_count
   discvm_count       = local.region_settings[var.region2].discvm_count
   vpc_cidr           = var.vpc_cidr
