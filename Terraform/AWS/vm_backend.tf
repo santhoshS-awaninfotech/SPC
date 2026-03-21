@@ -47,7 +47,6 @@ resource "aws_instance" "backVM" {
   USERA_PASSWORD = var.userA_password
   USERB_PASSWORD = var.userB_password
   PGSQLPASSWORD  = var.pgsql_password
-  REGCODE        = var.reg_code
   HOSTNAME       = "${var.reg_code}STGSPCRNR${upper(substr(aws_instance.backVM[count.index].availability_zone, -2, 2))}${count.index + 1}"
 
 })

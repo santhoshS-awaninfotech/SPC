@@ -40,6 +40,6 @@ resource "aws_instance" "DiscVM" {
   ADMIN_PASSWORD = var.admin_password
   USERA_PASSWORD = var.userA_password
   USERB_PASSWORD = var.userB_password
-  REGCODE        = var.reg_code
+  HOSTNAME       = "${var.reg_code}STGSPCRNR${upper(substr(aws_instance.backVM[count.index].availability_zone, -2, 2))}${count.index + 1}"
 })
   }
