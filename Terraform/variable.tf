@@ -29,7 +29,7 @@ locals {
     (var.region2) = {
       backendvm_count = var.backendvm_count_region2
       discvm_count    = var.discvm_count_region2
-      reg_code        = var.reg2code
+      reg_code        = var.reg2_code
     }
   }
 }
