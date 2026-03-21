@@ -29,7 +29,7 @@ module "aws_resources_for_region2" {
   region             = var.region2
   backendvm_count    = local.region_settings[var.region2].backendvm_count
   discvm_count       = local.region_settings[var.region2].discvm_count
-  region_code        = local.region_settings[var.region1].region2_code
+  region_code        = local.region_settings[var.region2].region2_code
   vpc_cidr           = var.vpc_cidr
   backsubnet_cidr    = var.backsubnet_cidr
   discsubnet_cidr    = var.discsubnet_cidr

@@ -73,7 +73,7 @@ jobs:
       - name: Show TF output
         run: terraform output -json | jq .
 
-      - name: Get resourcename for taint
+      - name: Find Taint Resource
         if: ${{ github.event.inputs.action == 'PIP_Recycle' && github.event.inputs.target_ip != '' }}
         id: find_resource
         run: |
@@ -91,7 +91,7 @@ jobs:
           echo "resource=$resource"
           echo "resource=$resource" >> $GITHUB_OUTPUT
 
-      - name: Apply Taint on Resource
+      - name: Apply Taint
         if: ${{ github.event.inputs.action == 'PIP_Recycle' && github.event.inputs.target_ip != '' }}
         run: terraform taint ${{ steps.find_resource.outputs.resource }}
 
