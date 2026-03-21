@@ -22,12 +22,10 @@ locals {
     (var.region1) = {
       backendvm_count = var.backendvm_count_region1
       discvm_count    = var.discvm_count_region1
-      region_code     = var.region1_code
     }
     (var.region2) = {
       backendvm_count = var.backendvm_count_region2
       discvm_count    = var.discvm_count_region2
-      region_code     = var.region2_code
     }
   }
 }
