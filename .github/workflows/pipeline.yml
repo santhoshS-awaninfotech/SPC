@@ -71,6 +71,7 @@ jobs:
         run: terraform init
 
       - name: Show TF output
+        if: ${{ github.event.inputs.action == 'PIP_Recycle' && github.event.inputs.target_ip != '' }}
         run: terraform output -json | jq .
 
       - name: Find Taint Resource
