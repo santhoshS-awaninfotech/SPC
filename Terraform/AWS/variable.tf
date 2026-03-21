@@ -9,10 +9,11 @@ variable "region" {
  type    = string
  default = ""
 }
-# variable "availability_zone" {
-#  type    = string
-#  default = ""
-# }
+
+variable "region_code" {
+  type = string
+}
+
 variable "module_name" {
   type = string
 }
@@ -56,10 +57,6 @@ variable "disc_instance_type" {
 variable "be_instance_type" {
  type    = string
  default = "t3.micro"
-}
-
-variable "region_code" {
-  type = string
 }
 
 
