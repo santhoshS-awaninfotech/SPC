@@ -10,10 +10,9 @@ variable "region" {
  default = ""
 }
 
-variable "region_code" {
-  type = string
-}
-
+variable "region_code" {  type = string }
+variable "region1_code" { type = string }
+variable "region2_code" { type = string }
 variable "module_name" {
   type = string
 }
