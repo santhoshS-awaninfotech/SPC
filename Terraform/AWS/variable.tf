@@ -58,6 +58,9 @@ variable "be_instance_type" {
  default = "t3.micro"
 }
 
+variable "region_code" {
+  type = string
+}
 
 
 #Azure
