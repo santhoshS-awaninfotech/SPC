@@ -34,7 +34,7 @@ $vsUrl = "https://update.code.visualstudio.com/latest/win32-x64/stable"
 $vsInstaller = "$env:TEMP\vscode-installer.exe"
 Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 
-Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
+Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait -PassThru | Out-File "C:\vscode-install.log"
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
 
 Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
