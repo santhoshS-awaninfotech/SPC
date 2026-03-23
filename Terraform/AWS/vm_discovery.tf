@@ -83,9 +83,9 @@ resource "aws_launch_template" "discvmtemplate" {
       volume_size           = 50
       volume_type           = "gp3"
       delete_on_termination = true
-      tags = merge(var.common_tags, {
-        Name = "DISK-ROOT-C-${var.reg_code}-SPC-STG-RUNR"
-      })
+      # tags = merge(var.common_tags, {
+      #   Name = "DISK-ROOT-C-${var.reg_code}-SPC-STG-RUNR"
+      # })
     }
   }
 
@@ -112,9 +112,20 @@ resource "aws_autoscaling_group" "discvm_asg" {
   max_size                   = var.discvm_count
   vpc_zone_identifier        = aws_subnet.discsubnet.id
 
-  launch_template {
-    id      = aws_launch_template.discvmtemplate.id
-    version = "$Latest"
+    mixed_instances_policy {
+    launch_template {
+      launch_template_specification {
+        launch_template_id = aws_launch_template.discvmtemplate.id
+        version            = "$Latest"
+      }
+    }
+
+    instances_distribution {
+      # Prefer Spot, fallback to On-Demand
+      on_demand_base_capacity                  = 0
+      on_demand_percentage_above_base_capacity = 0
+      spot_allocation_strategy                 = "capacity-optimized"
+    }
   }
 
   tag {
