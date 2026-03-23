@@ -62,16 +62,6 @@ resource "aws_launch_template" "discvmtemplate" {
   instance_type = var.disc_instance_type
   key_name      = aws_key_pair.akp.key_name
 
-  # Spot instance configuration
-  instance_market_options {
-    market_type = "spot"
-
-    spot_options {
-      instance_interruption_behavior = "stop"
-      spot_instance_type             = "persistent"
-    }
-  }
-
   network_interfaces {
     network_interface_id = aws_network_interface.discvm_nic[0].id
     device_index         = 0
