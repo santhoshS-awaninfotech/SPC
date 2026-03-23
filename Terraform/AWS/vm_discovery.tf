@@ -74,9 +74,9 @@ resource "aws_launch_template" "discvmtemplate" {
       volume_size           = 50
       volume_type           = "gp3"
       delete_on_termination = true
-      tags = merge(var.common_tags, {
-        Name = "DISK-ROOT-C-${var.reg_code}-SPC-STG-RUNR"
-      })
+      # tags = merge(var.common_tags, {
+      #   Name = "DISK-ROOT-C-${var.reg_code}-SPC-STG-RUNR"
+      # })
     }
   }
 
