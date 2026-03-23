@@ -72,10 +72,10 @@ resource "aws_launch_template" "discvmtemplate" {
     }
   }
 
-  # network_interfaces {
-  #   network_interface_id = aws_network_interface.discvm_nic[0].id
-  #   device_index         = 0
-  # }
+  network_interfaces {
+    network_interface_id = aws_network_interface.discvm_nic[0].id
+    device_index         = 0
+  }
 
   block_device_mappings {
     device_name = "/dev/sda1"
