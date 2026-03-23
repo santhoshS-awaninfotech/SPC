@@ -72,10 +72,10 @@ resource "aws_launch_template" "discvmtemplate" {
     }
   }
 
-  network_interfaces {
-    network_interface_id = aws_network_interface.discvm_nic[0].id
-    device_index         = 0
-  }
+  # network_interfaces {
+  #   network_interface_id = aws_network_interface.discvm_nic[0].id
+  #   device_index         = 0
+  # }
 
   block_device_mappings {
     device_name = "/dev/sda1"
@@ -110,7 +110,7 @@ resource "aws_autoscaling_group" "discvm_asg" {
   desired_capacity           = var.discvm_count
   min_size                   = var.discvm_count
   max_size                   = var.discvm_count
-  vpc_zone_identifier        = aws_subnet.discsubnet.id
+  vpc_zone_identifier        = [aws_subnet.discsubnet.id]
 
     mixed_instances_policy {
     launch_template {
