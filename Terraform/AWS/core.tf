@@ -20,8 +20,13 @@ resource "aws_vpc" "spcvpc" {
 #   tags   = merge(var.common_tags, { Name = "SUBNET-${var.reg_code}-SPC-STG-RUNR"})
 # }
 
+# resource "aws_subnet" "backsubnet" {
+#   vpc_id            = aws_vpc.spcvpc.id
+#   cidr_block        = var.backsubnet_cidr
+#   availability_zone = data.aws_availability_zones.available.names[0]
+#   tags   = merge(var.common_tags, { Name = "SUBNET-${var.reg_code}-SPC-STG-UIDB"})
+# }
 
-# Create multiple subnets, one per AZ up to the count you specify
 resource "aws_subnet" "discsubnet" {
   count             = var.discvm_count 
   vpc_id            = aws_vpc.spcvpc.id
@@ -33,13 +38,17 @@ resource "aws_subnet" "discsubnet" {
   })
 }
 
-
 resource "aws_subnet" "backsubnet" {
+  count             = var.backendvm_count 
   vpc_id            = aws_vpc.spcvpc.id
-  cidr_block        = var.backsubnet_cidr
-  availability_zone = data.aws_availability_zones.available.names[0]
-  tags   = merge(var.common_tags, { Name = "SUBNET-${var.reg_code}-SPC-STG-UIDB"})
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index) 
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
+  tags = merge(var.common_tags, {
+    Name = "SUBNET-${var.reg_code}-SPC-STG-UIDB-${count.index + 1}"
+  })
 }
+
 
 # Internet Gateway
 resource "aws_internet_gateway" "spcgw" {

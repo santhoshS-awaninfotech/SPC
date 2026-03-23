@@ -7,7 +7,7 @@ resource "aws_eip" "disc_pip" {
 # Create a Network Interface
 resource "aws_network_interface" "discvm_nic" {
   count           = var.discvm_count
-  subnet_id       = aws_subnet.discsubnet.id
+  subnet_id       = aws_subnet.discsubnet[count.index].id
   security_groups = [aws_security_group.discovery_sg.id]
   tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }

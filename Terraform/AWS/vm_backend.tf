@@ -7,7 +7,7 @@ resource "aws_eip" "back_pip" {
 # Create a Network Interface
 resource "aws_network_interface" "back_nic" {
   count           = var.backendvm_count
-  subnet_id       = aws_subnet.backsubnet.id
+  subnet_id       = aws_subnet.backsubnet[count.index].id
   security_groups = [aws_security_group.backend_sg.id]
   tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }
