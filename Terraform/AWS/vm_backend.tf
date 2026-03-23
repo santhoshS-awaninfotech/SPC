@@ -34,12 +34,14 @@ resource "aws_instance" "backVM" {
     volume_size           = 50        
     volume_type           = "gp3"    
     delete_on_termination = true
+    tags   = merge(var.common_tags, { Name = "DISK-ROOT-C-${var.reg_code}-SPC-STG-UIDB"})
   }
     ebs_block_device {
     device_name           = "xvdf" 
     volume_size           = 50      
     volume_type           = "gp3"
     delete_on_termination = true
+    tags   = merge(var.common_tags, { Name = "DISK-DATA-F-${var.reg_code}-SPC-STG-UIDB"})
   }
 
   user_data     = templatefile("${path.module}/scripts/backend_ud.ps1", {
