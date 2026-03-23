@@ -1,6 +1,6 @@
 # Security Group
 resource "aws_security_group" "backend_sg" {
-  name   = "SG_Backend"
+  name   = "SG-${var.reg_code}-SPC-STG-UIDB"
   vpc_id = aws_vpc.spcvpc.id
   tags   = merge(var.common_tags, { Name = "SG-${var.reg_code}-SPC-STG-UIDB"})
 
@@ -30,7 +30,7 @@ resource "aws_security_group" "backend_sg" {
 }
 
 resource "aws_security_group" "discovery_sg" {
-  name   = "SG_Discovery"
+  name   = "SG-${var.reg_code}-SPC-STG-RUNR"
   vpc_id = aws_vpc.spcvpc.id
   tags   = merge(var.common_tags, { Name = "SG-${var.reg_code}-SPC-STG-RUNR"})
 
