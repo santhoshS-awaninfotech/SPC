@@ -31,7 +31,7 @@ resource "aws_instance" "DiscVM" {
     market_type = "spot"
 
     spot_options {
-      instance_interruption_behavior = "terminate"   # or "stop", "hibernate"
+      instance_interruption_behavior = "stop"   # or "stop", "hibernate"
       spot_instance_type             = "persistent" # "one-time" or "persistent"
     }
   }
