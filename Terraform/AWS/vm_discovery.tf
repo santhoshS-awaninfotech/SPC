@@ -100,7 +100,7 @@ resource "aws_autoscaling_group" "discvm_asg" {
   desired_capacity           = var.discvm_count
   min_size                   = var.discvm_count
   max_size                   = var.discvm_count
-  vpc_zone_identifier        = [aws_subnet.discsubnet.id]
+  #vpc_zone_identifier        = [aws_subnet.discsubnet.id]
 
     mixed_instances_policy {
     launch_template {
