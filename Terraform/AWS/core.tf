@@ -70,12 +70,12 @@ resource "aws_route" "internet_access" {
 
 resource "aws_route_table_association" "assoc_disc" {
   #count          = var.resource_count
-  subnet_id      = aws_subnet.discsubnet.id
+  subnet_id      = aws_subnet.discsubnet[count.index].id
   route_table_id = aws_route_table.spcrt.id
 }
 
 resource "aws_route_table_association" "assoc_backend" {
-  subnet_id      = aws_subnet.backsubnet.id
+  subnet_id      = aws_subnet.backsubnet[count.index].id
   route_table_id = aws_route_table.spcrt.id
 }
 
