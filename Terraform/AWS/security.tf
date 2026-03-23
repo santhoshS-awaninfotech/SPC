@@ -2,7 +2,7 @@
 resource "aws_security_group" "backend_sg" {
   name   = "SG_Backend"
   vpc_id = aws_vpc.spcvpc.id
-  tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-BE" })
+  tags   = merge(var.common_tags, { Name = "SG-${var.reg_code}-SPC-STG-UIDB"})
 
   ingress {
     description = "Allow RDP from anywhere"
@@ -32,7 +32,7 @@ resource "aws_security_group" "backend_sg" {
 resource "aws_security_group" "discovery_sg" {
   name   = "SG_Discovery"
   vpc_id = aws_vpc.spcvpc.id
-  tags   = merge(var.common_tags, { Name = "SG-SPC-FOR-DISC" })
+  tags   = merge(var.common_tags, { Name = "SG-${var.reg_code}-SPC-STG-RUNR"
 
   ingress {
     from_port   = 3389

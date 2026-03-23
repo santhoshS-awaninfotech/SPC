@@ -26,6 +26,16 @@ resource "aws_instance" "DiscVM" {
   key_name      = aws_key_pair.akp.key_name
   tags          = merge(var.common_tags, { Name = "VM-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 
+   # Spot instance configuration
+  instance_market_options {
+    market_type = "spot"
+
+    spot_options {
+      instance_interruption_behavior = "terminate"   # or "stop", "hibernate"
+      spot_instance_type             = "persistent" # "one-time" or "persistent"
+    }
+  }
+
   network_interface {
     network_interface_id = aws_network_interface.discvm_nic[count.index].id
     device_index         = 0 
