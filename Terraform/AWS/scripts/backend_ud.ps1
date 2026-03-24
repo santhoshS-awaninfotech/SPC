@@ -57,8 +57,11 @@ Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
+#4 Rename-Computer
+Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
+Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-File C:\Userdata.log -Append
 
-#4 Install S3 Browser
+#5 Install S3 Browser
 $s3Url = "https://s3browser.com/download/s3browser-13-1-1.exe"
 $s3Installer = "$env:TEMP\s3browser-installer.exe"
 Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
@@ -66,8 +69,6 @@ Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
 Start-Process -FilePath $s3Installer -ArgumentList "/VERYSILENT /NORESTART" -Wait
 write-output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] S3 Browser completed" | Out-File C:\Userdata.log -Append
 
-Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
-Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-File C:\Userdata.log -Append
 Restart-Computer -Force
 
 </powershell>

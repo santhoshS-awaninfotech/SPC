@@ -28,6 +28,9 @@ Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
 Start-Process -FilePath $pythonInstaller -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
 write-output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Python installed" | Out-File C:\Userdata.log -Append
 }
+#3 Rename-Computer
+Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
+Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-File C:\Userdata.log -Append
 
 #3 Install VS Code
 $vsUrl = "https://update.code.visualstudio.com/latest/win32-x64/stable"
@@ -37,8 +40,6 @@ Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait -PassThru | Out-File "C:\vscode-install.log"
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
 
-Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
-Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-File C:\Userdata.log -Append
 Restart-Computer -Force
 
 </powershell>
