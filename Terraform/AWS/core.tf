@@ -30,7 +30,7 @@ resource "aws_vpc" "spcvpc" {
 resource "aws_subnet" "discsubnet" {
   count             = var.discvm_count 
   vpc_id            = aws_vpc.spcvpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index) 
+  cidr_block        = cidrsubnet(var.vpc_cidr, 2, count.index) 
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
