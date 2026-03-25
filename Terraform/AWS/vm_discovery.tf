@@ -73,9 +73,6 @@ resource "aws_launch_template" "discvmtemplate" {
       volume_size           = 50
       volume_type           = "gp3"
       delete_on_termination = true
-      # tags = merge(var.common_tags, {
-      #   Name = "DISK-ROOT-C-${var.reg_code}-SPC-STG-RUNR"
-      # })
     }
   }
 
@@ -112,7 +109,6 @@ resource "aws_autoscaling_group" "discvm_asg" {
     }
 
     instances_distribution {
-      # Prefer Spot, fallback to On-Demand
       on_demand_base_capacity                  = 0
       on_demand_percentage_above_base_capacity = 0
       spot_allocation_strategy                 = "capacity-optimized"
