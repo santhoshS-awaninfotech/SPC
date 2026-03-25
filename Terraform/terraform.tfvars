@@ -1,7 +1,5 @@
 
-vpc_cidr            = "10.100.0.0/22"
-backsubnet_cidr     = "10.100.1.0/24"
-discsubnet_cidr     = "10.100.2.0/24"
+vpc_cidr            = "10.100.0.0/16"
 disc_instance_type  = "t3.micro"
 be_instance_type    = "t3.micro"
 
