@@ -45,7 +45,7 @@ resource "aws_subnet" "backsubnet" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
-    Name = "SUBNET-${var.reg_code}-SPC-STG-UIDB-$${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"
+    Name = "SUBNET-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"
   })
 }
 
