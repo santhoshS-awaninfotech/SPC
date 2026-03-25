@@ -30,7 +30,7 @@ resource "aws_vpc" "spcvpc" {
 resource "aws_subnet" "discsubnet" {
   count             = var.discvm_count 
   vpc_id            = aws_vpc.spcvpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 2, count.index) 
+  cidr_block        = cidrsubnet(var.vpc_cidr, 4, count.index) 
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
@@ -41,7 +41,7 @@ resource "aws_subnet" "discsubnet" {
 resource "aws_subnet" "backsubnet" {
   count             = var.backendvm_count 
   vpc_id            = aws_vpc.spcvpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, 2, count.index + 10) 
+  cidr_block        = cidrsubnet(var.vpc_cidr, 4, count.index + 10) 
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
