@@ -29,7 +29,8 @@ on:
 
       use_spot:
         description: "Launch Spot instance?"
-        default: "false"
+        default: false
+        type : boolean
 
 
 env:
