@@ -34,7 +34,9 @@ locals {
   }
 }
 
-
+variable "use_spot" {
+  type    = bool
+}
 
 variable "availability_zone" {
  type    = string

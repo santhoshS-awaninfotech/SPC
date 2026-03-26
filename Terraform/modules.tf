@@ -5,6 +5,7 @@ module "aws_resources_for_region1" {
   providers          = { aws = aws.reg1 }
   module_name        = "aws_resources_for_region1"
   cloud              = var.cloud
+  use_spot           = var.use_spot
   region             = var.region1
   reg_code           = local.region_settings[var.region1].reg_code
   backendvm_count    = local.region_settings[var.region1].backendvm_count
@@ -26,6 +27,7 @@ module "aws_resources_for_region2" {
   providers          = { aws = aws.reg2 }
   module_name        = "aws_resources_for_region2"
   cloud              = var.cloud
+  use_spot           = var.use_spot
   region             = var.region2
   reg_code           = local.region_settings[var.region2].reg_code
   backendvm_count    = local.region_settings[var.region2].backendvm_count
