@@ -42,6 +42,11 @@ resource "aws_instance" "DiscVM" {
     }
   }
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
+
   # network_interface {
   #   network_interface_id = aws_network_interface.discvm_nic[count.index].id
   #   device_index         = 0 
