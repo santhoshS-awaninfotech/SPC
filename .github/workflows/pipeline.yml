@@ -18,6 +18,11 @@ on:
           - Create
           - Destroy
           - PIP_Recycle
+
+      use_spot:
+        description: "select to sLaunch Spot instance?"
+        default: false
+        type : boolean
       check:
         description: "Confirm to review the plan [Recommended before Apply]"
         default: false
@@ -26,11 +31,6 @@ on:
       target_ip:
         description: "[optional] Enter PublicIP to-be recycled, when needed (Example: 100.10.100.10)"
         required: false
-
-      use_spot:
-        description: "Launch Spot instance?"
-        default: false
-        type : boolean
 
 
 env:
@@ -53,8 +53,6 @@ env:
   AWS_ACCESS_KEY_ID    : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   #AWS_DEFAULT_REGION   : ${{ secrets.AWS_DEFAULT_REGION }}
-
-
 
 
 
