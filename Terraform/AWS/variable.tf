@@ -25,6 +25,10 @@ variable "vpc_cidr" {
   default = ""
 }
 
+variable "use_spot" {
+  type    = bool
+}
+
 variable "backsubnet_cidr" {
   type    = string
   default = ""
