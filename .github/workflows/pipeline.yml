@@ -20,7 +20,7 @@ on:
           - PIP_Recycle
 
       use_spot:
-        description: "select to sLaunch Spot instance?"
+        description: "select, to Launch Spot instance for worker"
         default: false
         type : boolean
       check:
