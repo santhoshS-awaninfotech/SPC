@@ -95,7 +95,7 @@ data "aws_availability_zones" "available" {
 }
 
 resource "aws_resourcegroups_group" "SPCRG" {
-  name        = "${var.reg_code}_SPC_RG_POC"
+  name        = "RG_${var.reg_code}_SPC_POC"
   description = "Resource group for SPC POC resources"
 
   resource_query {
@@ -113,7 +113,7 @@ JSON
   }
 
   tags = {
-    Name        = "${var.reg_code}_SPC_RG_POC"
+    Name        = "RG_${var.reg_code}_SPC_POC"
     Project     = "SPC"
     Environment = "Staging"
   }
