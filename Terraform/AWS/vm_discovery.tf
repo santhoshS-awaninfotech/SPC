@@ -15,7 +15,7 @@ resource "aws_network_interface" "discvm_nic" {
 resource "aws_eip_association" "disc_pip_assoc" {
   count                = var.discvm_count
   allocation_id        = aws_eip.disc_pip[count.index].id
-  etwork_interface_id = aws_network_interface.discvm_nic[count.index].id
+  network_interface_id = aws_network_interface.discvm_nic[count.index].id
   #instance_id   = aws_instance.DiscVM[count.index].id
 }
 
