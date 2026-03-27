@@ -27,7 +27,7 @@ on:
           - Spot
 
       check:
-        description: "Ensure plan is reviewed manually [Required for Apply]"
+        description: "Ensure TFplan is reviewed manually [Required for Apply]"
         default: false
         type : boolean
 
