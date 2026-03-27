@@ -6,6 +6,8 @@ resource "tls_private_key" "tpk" {
 resource "aws_key_pair" "akp" {
   key_name   = "sant-ec2-key"
   public_key = tls_private_key.tpk.public_key_openssh
+  tags       = { Name = "KP_${var.reg_code}_SANTHOSH_SPC"}
+
 }
 
 resource "azurerm_storage_blob" "ec2_private_key" {
