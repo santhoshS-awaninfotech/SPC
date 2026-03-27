@@ -27,7 +27,7 @@ resource "aws_instance" "DiscVM" {
   key_name      = aws_key_pair.akp.key_name
   tags          = merge(var.common_tags, { Name = "VM-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
   #subnet_id     = aws_subnet.discsubnet[count.index].id
-  vpc_security_group_ids = [aws_security_group.discovery_sg.id]
+  #vpc_security_group_ids = [aws_security_group.discovery_sg.id]
 
 
   dynamic "instance_market_options" {
