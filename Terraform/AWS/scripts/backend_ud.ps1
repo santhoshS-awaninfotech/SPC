@@ -57,6 +57,7 @@ Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
 
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
+
 #4 Rename-Computer
 Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-File C:\Userdata.log -Append
