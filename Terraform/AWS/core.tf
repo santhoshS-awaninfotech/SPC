@@ -95,7 +95,7 @@ data "aws_availability_zones" "available" {
 }
 
 resource "aws_resourcegroups_group" "SPCRG" {
-  name        = "SPC_ResourceGroup_POC"
+  name        = "${var.reg_code}_SPC_ResourceGroup_POC"
   description = "Resource group for SPC POC resources"
 
   resource_query {
