@@ -34,7 +34,6 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
 $pythonUrl = "https://www.python.org/ftp/python/3.13.12/python-3.13.12-amd64.exe"
 $pythonInstaller = "$env:TEMP\python-installer.exe"
 Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
-
 Start-Process -FilePath $pythonInstaller -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
 write-output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Python completed" | Out-File C:\Userdata.log -Append
 }
@@ -45,18 +44,9 @@ $pgUrl = "https://get.enterprisedb.com/postgresql/postgresql-18.3-2-windows-x64.
 $pgInstaller = "$env:TEMP\postgresql-installer.exe"
 Invoke-WebRequest -Uri $pgUrl -OutFile $pgInstaller
 New-Item -ItemType Directory -Path "F:\Postgres\data" -Force
-
 Start-Process -FilePath $pgInstaller -ArgumentList "--mode unattended --unattendedmodeui none --install_runtimes 0 --prefix ""C:\Program Files\PostgreSQL\18"" --datadir ""F:\Postgres\data"" --superpassword ${PGSQLPASSWORD}" -Wait
 write-output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] PostgreSQL completed" | Out-File C:\Userdata.log -Append
 } 
-
-#3 Install VS Code
-$vsUrl = "https://update.code.visualstudio.com/latest/win32-x64/stable"
-$vsInstaller = "$env:TEMP\vscode-installer.exe"
-Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
-
-Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait
-Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
 
 #4 Rename-Computer
 Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
@@ -66,9 +56,15 @@ Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-Fi
 $s3Url = "https://s3browser.com/download/s3browser-13-1-1.exe"
 $s3Installer = "$env:TEMP\s3browser-installer.exe"
 Invoke-WebRequest -Uri $s3Url -OutFile $s3Installer
-
 Start-Process -FilePath $s3Installer -ArgumentList "/VERYSILENT /NORESTART" -Wait
 write-output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] S3 Browser completed" | Out-File C:\Userdata.log -Append
+
+#6 Install VS Code
+$vsUrl = "https://update.code.visualstudio.com/latest/win32-x64/stable"
+$vsInstaller = "$env:TEMP\vscode-installer.exe"
+Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
+Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait -PassThru | Out-File "C:\vscode-install.log"
+Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
 
 Restart-Computer -Force
 

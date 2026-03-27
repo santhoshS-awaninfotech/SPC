@@ -24,10 +24,10 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
 $pythonUrl = "https://www.python.org/ftp/python/3.13.12/python-3.13.12-amd64.exe"
 $pythonInstaller = "$env:TEMP\python-installer.exe"
 Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
-
 Start-Process -FilePath $pythonInstaller -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
 write-output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Python installed" | Out-File C:\Userdata.log -Append
 }
+
 #3 Rename-Computer
 Rename-Computer -NewName "${HOSTNAME}" -Force -Verbose
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-File C:\Userdata.log -Append
@@ -36,7 +36,6 @@ Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Host Renamed" | Out-Fi
 $vsUrl = "https://update.code.visualstudio.com/latest/win32-x64/stable"
 $vsInstaller = "$env:TEMP\vscode-installer.exe"
 Invoke-WebRequest -Uri $vsUrl -OutFile $vsInstaller
-
 Start-Process -FilePath $vsInstaller -ArgumentList "/VERYSILENT /NORESTART" -Wait -PassThru | Out-File "C:\vscode-install.log"
 Write-Output "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] VS Code installation completed" | Out-File C:\Userdata.log -Append
 
