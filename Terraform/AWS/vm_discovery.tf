@@ -37,7 +37,7 @@ resource "aws_instance" "DiscVM" {
   #vpc_security_group_ids = [aws_security_group.discovery_sg.id]
 
 
-  dynamic "instance_market_options" {s
+  dynamic "instance_market_options" {
     for_each = var.use_spot ? [1] : []
     content {
       market_type = "spot"
