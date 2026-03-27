@@ -18,13 +18,13 @@ on:
           - Create
           - Destroy
           - PIP_Recycle
+      check:
+        description: "Ensure plan is reviewed manually [Required for Apply]"
+        default: false
+        type : boolean
 
       use_spot:
         description: "[optional] Launch Runner as Spot instances"
-        default: false
-        type : boolean
-      check:
-        description: "Ensure plan is reviewed manually [Required for Apply]"
         default: false
         type : boolean
 
