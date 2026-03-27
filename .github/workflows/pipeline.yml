@@ -23,8 +23,8 @@ on:
         description: "Runner Instance Type"
         type : choice
         options:
-          - NORMAL
-          - SPOT
+          - Default
+          - Spot
 
       check:
         description: "Ensure plan is reviewed manually [Required for Apply]"
@@ -43,7 +43,7 @@ env:
   TF_VAR_userA_password: ${{ secrets.AZURE_VM_USERA_PASSWORD }}
   TF_VAR_userB_password: ${{ secrets.AZURE_VM_USERB_PASSWORD }}
   TF_VAR_pgsql_password: ${{ secrets.AZURE_VM_APP_PGSQL_PASSWORD }}
-  TF_VAR_use_spot      : ${{ github.event.inputs.use_spot == 'SPOT' }}
+  TF_VAR_use_spot      : ${{ github.event.inputs.use_spot == 'Spot' }}
 
 
   # Azure secrets
