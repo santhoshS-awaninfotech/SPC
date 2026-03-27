@@ -32,7 +32,7 @@ on:
         type : boolean
 
       target_ip:
-        description: "[optional] Enter PublicIP to-be recycled for Action type: PIP_Recycle (Example: 100.10.100.10)"
+        description: "[optional] Enter PublicIP (eg: 100.10.100.10) to-be recycled for Action type: PIP_Recycle"
         required: false
 
 
