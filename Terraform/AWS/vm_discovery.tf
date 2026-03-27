@@ -42,9 +42,9 @@ resource "aws_instance" "DiscVM" {
     }
   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
+lifecycle {
+  replace_triggered_by = [var.use_spot]
+}
 
   network_interface {
     network_interface_id = aws_network_interface.discvm_nic[count.index].id
