@@ -113,7 +113,8 @@ JSON
   }
 
   tags = {
-    Project       = "SPC"
+    Name        = ""${var.reg_code}_SPC_RG_POC""
+    Project     = "SPC"
     Environment = "Staging"
   }
 }
