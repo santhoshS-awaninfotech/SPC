@@ -20,11 +20,11 @@ on:
           - PIP_Recycle
 
       use_spot:
-        description: "select, to Launch Spot instance for worker"
+        description: "Launch Runner as Spot instances"
         default: false
         type : boolean
       check:
-        description: "Confirm to review the plan [Recommended before Apply]"
+        description: "Ensure plan is reviewed manually [Required for Apply]"
         default: false
         type : boolean
 
