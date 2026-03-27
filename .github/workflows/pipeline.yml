@@ -20,7 +20,7 @@ on:
           - PIP_Recycle
 
       use_spot:
-        description: "Launch Runner as Spot instances"
+        description: "[optional] Launch Runner as Spot instances"
         default: false
         type : boolean
       check:
