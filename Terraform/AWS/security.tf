@@ -5,6 +5,7 @@ resource "aws_security_group" "backend_sg" {
   tags   = merge(var.common_tags, { Name = "SG-${var.reg_code}-SPC-STG-UIDB"})
 
   ingress {
+    Name        = "TestName"
     description = "Allow RDP from anywhere"
     from_port   = 3389
     to_port     = 3389
