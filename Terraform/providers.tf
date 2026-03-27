@@ -32,9 +32,23 @@ provider "azurerm" {
 provider "aws" {
   alias  = "reg1"
   region = var.region1
+    default_tags {
+    tags = {
+      Project     = "SPC"
+      Region      = "R1"
+      Env         = "STG"
+    }
+  }
 }
 
 provider "aws" {
   alias  = "reg2"
   region = var.region2
+    default_tags {
+    tags = {
+      Project     = "SPC"
+      Region      = "R2"
+      Env         = "POC"
+    }
+  }
 }
