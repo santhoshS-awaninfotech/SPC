@@ -19,6 +19,13 @@ resource "aws_eip_association" "disc_pip_assoc" {
   #instance_id   = aws_instance.DiscVM[count.index].id
 }
 
+
+resource "null_resource" "spot_toggle" {
+  triggers = {
+    use_spot = var.use_spot
+  }
+}
+
 # EC2 Instance
 resource "aws_instance" "DiscVM" {
   count         = var.discvm_count
@@ -42,9 +49,9 @@ resource "aws_instance" "DiscVM" {
     }
   }
 
-lifecycle {
-  replace_triggered_by = [var.use_spot]
-}
+  lifecycle {
+    replace_triggered_by = [null_resource.spot_toggle]
+  }
 
   network_interface {
     network_interface_id = aws_network_interface.discvm_nic[count.index].id
