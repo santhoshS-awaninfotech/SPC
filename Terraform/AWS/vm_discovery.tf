@@ -5,18 +5,18 @@ resource "aws_eip" "disc_pip" {
 }
 
 # Create a Network Interface
-# resource "aws_network_interface" "discvm_nic" {
-#   count           = var.discvm_count
-#   subnet_id       = aws_subnet.discsubnet[count.index].id
-#   security_groups = [aws_security_group.discovery_sg.id]
-#   tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
-# }
+resource "aws_network_interface" "discvm_nic" {
+  count           = var.discvm_count
+  subnet_id       = aws_subnet.discsubnet[count.index].id
+  security_groups = [aws_security_group.discovery_sg.id]
+  tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-RUNR-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
+}
 
 resource "aws_eip_association" "disc_pip_assoc" {
   count                = var.discvm_count
   allocation_id        = aws_eip.disc_pip[count.index].id
-  # network_interface_id = aws_network_interface.discvm_nic[count.index].id
-  instance_id   = aws_instance.DiscVM[count.index].id
+  etwork_interface_id = aws_network_interface.discvm_nic[count.index].id
+  #instance_id   = aws_instance.DiscVM[count.index].id
 }
 
 # EC2 Instance
@@ -46,11 +46,10 @@ resource "aws_instance" "DiscVM" {
     create_before_destroy = true
   }
 
-
-  # network_interface {
-  #   network_interface_id = aws_network_interface.discvm_nic[count.index].id
-  #   device_index         = 0 
-  # }
+  network_interface {
+    network_interface_id = aws_network_interface.discvm_nic[count.index].id
+    device_index         = 0 
+  }
   root_block_device {
     volume_size = 50        
     volume_type = "gp3"    

@@ -4,19 +4,19 @@ resource "aws_eip" "back_pip" {
   tags   = merge(var.common_tags, { Name = "PIP-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
 }
 
-# # Create a Network Interface
-# resource "aws_network_interface" "back_nic" {
-#   count           = var.backendvm_count
-#   subnet_id       = aws_subnet.backsubnet[count.index].id
-#   security_groups = [aws_security_group.backend_sg.id]
-#   tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
-# }
+# Create a Network Interface
+resource "aws_network_interface" "back_nic" {
+  count           = var.backendvm_count
+  subnet_id       = aws_subnet.backsubnet[count.index].id
+  security_groups = [aws_security_group.backend_sg.id]
+  tags            = merge(var.common_tags, { Name = "NIC-${var.reg_code}-SPC-STG-UIDB-${upper(substr(data.aws_availability_zones.available.names[count.index], -2, 2))}-${count.index + 1}"})
+}
 
 resource "aws_eip_association" "back_pip_assoc" {
   count                = var.backendvm_count
   allocation_id        = aws_eip.back_pip[count.index].id
-  # network_interface_id = aws_network_interface.back_nic[count.index].id
-  instance_id   = aws_instance.backVM[count.index].id
+  snetwork_interface_id = aws_network_interface.back_nic[count.index].id
+  #instance_id   = aws_instance.backVM[count.index].id
 }
 
 # EC2 Instance
@@ -29,10 +29,10 @@ resource "aws_instance" "backVM" {
   subnet_id     = aws_subnet.backsubnet[count.index].id
    vpc_security_group_ids = [aws_security_group.backend_sg.id]
 
-  # network_interface {
-  #   network_interface_id = aws_network_interface.back_nic[count.index].id
-  #   device_index         = 0 
-  # }
+  network_interface {
+    network_interface_id = aws_network_interface.back_nic[count.index].id
+    device_index         = 0 
+  }
   root_block_device {
     volume_size           = 50        
     volume_type           = "gp3"    
