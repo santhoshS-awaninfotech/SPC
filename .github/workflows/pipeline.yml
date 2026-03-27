@@ -25,8 +25,10 @@ on:
 
       use_spot:
         description: "[optional] Launch Runner as Spot instances"
-        default: false
-        type : boolean
+        type : choice
+        options:
+          - SPOT
+          - NORMAL
 
       target_ip:
         description: "[optional] Enter PublicIP to-be recycled, when needed (Example: 100.10.100.10)"
@@ -40,7 +42,7 @@ env:
   TF_VAR_userA_password: ${{ secrets.AZURE_VM_USERA_PASSWORD }}
   TF_VAR_userB_password: ${{ secrets.AZURE_VM_USERB_PASSWORD }}
   TF_VAR_pgsql_password: ${{ secrets.AZURE_VM_APP_PGSQL_PASSWORD }}
-  TF_VAR_use_spot      : ${{ github.event.inputs.use_spot }}
+  TF_VAR_use_spot      : ${{ github.event.inputs.use_spot == 'SPOT' }}
 
 
   # Azure secrets
