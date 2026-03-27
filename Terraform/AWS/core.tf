@@ -93,3 +93,27 @@ data "aws_ami" "windows" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+
+resource "aws_resourcegroups_group" "SPCRG" {
+  name        = "SPC_ResourceGroup_POC"
+  description = "Resource group for SPC POC resources"
+
+  resource_query {
+    query = <<JSON
+{
+  "ResourceTypeFilters": ["AWS::AllSupported"],
+  "TagFilters": [
+    {
+      "Key": "Project",
+      "Values": ["SPC"]
+    }
+  ]
+}
+JSON
+  }
+
+  tags = {
+    Project       = "SPC"
+    Environment = "Staging"
+  }
+}
