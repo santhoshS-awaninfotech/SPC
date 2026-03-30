@@ -44,7 +44,7 @@ resource "aws_security_group" "discovery_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "rdp_ingress_be" {
   security_group_id = aws_security_group.discovery_sg.id
-  cidr_ipv4         = "0.0.0.0/0"
+  cidr_ipv4         = "59.144.62.30, 49.249.168.130"
   from_port         = 3389
   to_port           = 3389
   ip_protocol       = "tcp"
